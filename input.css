@@ -1,1 +1,25 @@
 @import "tailwindcss";
+/* CSS */
+
+@layer components{
+    .square {
+        @apply min-w-10 h-10;
+    }
+}
+
+@theme{
+    --color-darker: #141414;
+    --color-accent: #9C151B;
+}
+
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+
+@layer base{
+    code {
+        font-family:fira_code;
+    }
+
+    button{
+        @apply border-b
+    }
+}
