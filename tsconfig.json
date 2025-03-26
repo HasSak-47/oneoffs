@@ -13,5 +13,14 @@
     "noEmitOnError": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "synchronousWatchDirectory": true,
+    "excludeFiles": ["**/node_modules"],
+    "excludeDirectories": ["**/node_modules"]
+  }
 }
+

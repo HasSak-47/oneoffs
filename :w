@@ -131,19 +131,23 @@ function rgb_to_hex({ r, g, b } : rgb_color) {
 
 
 function color_step(beg: lch_color, end: lch_color, step: number){
-    // handle when chroma is small
-    if(beg.c < 0.001){
-        beg.h = end.h;
-    }
-    if(end.c < 0.001){
-        end.h = beg.h;
-    }
-
     step = step - 1;
+    let h = end.h - beg.h;
+    if(end.c == 0.001){
+        h = beg.h;
+    }
+    else
+    if(beg.c < 0.001){
+        h = beg.h;
+    }
+    else{
+        h /= step;
+    }
+    console.log(h);
     let delta = {
         L: (end.L - beg.L) / step,
         c: (end.c - beg.c) / step,
-        h: (end.h - beg.h) / step,
+        h: h,
     }
 
     let arr : lch_color[] = [];
@@ -183,8 +187,9 @@ function render_steps(){
     let colors = color_step(beg, end, step);
     colors.forEach((color, idx) => {
         let element = document.createElement('div');
+        console.log(color)
         let color_hex = rgb_to_hex(oklab_to_rgb(oklch_to_oklab(color)));
-        color.L = color.L + 0.4;
+        color.L = color.L + 0.5;
         if (color.L > 1.0)
             color.L -= 1;
         color.c = 0;

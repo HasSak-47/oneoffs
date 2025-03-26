@@ -3,8 +3,14 @@
 
 @layer components{
     .square {
-        @apply min-w-10 h-10;
+        @apply flex flex-1 min-w-20 max-w-30 h-20 justify-center items-center;
     }
+
+    .input-color{
+        @apply aspect-square w-20 min-h-20
+    }
+
+
 }
 
 @theme{

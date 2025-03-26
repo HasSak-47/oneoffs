@@ -89,12 +89,18 @@ function rgb_to_hex({ r, g, b }) {
     return `#${hexR}${hexG}${hexB}`;
 }
 function color_step(beg, end, step) {
+    // handle when chroma is small
+    if (beg.c < 0.001) {
+        beg.h = end.h;
+    }
+    if (end.c < 0.001) {
+        end.h = beg.h;
+    }
     step = step - 1;
-    let h = end.h - beg.h;
     let delta = {
         L: (end.L - beg.L) / step,
         c: (end.c - beg.c) / step,
-        h: h / step,
+        h: (end.h - beg.h) / step,
     };
     let arr = [];
     for (let i = 0; i <= step; ++i) {
@@ -107,26 +113,38 @@ function color_step(beg, end, step) {
     }
     return arr;
 }
+let beg_color = document.getElementById('color-beg');
+let end_color = document.getElementById('color-end');
+let count_color = document.getElementById('color-count');
+beg_color.onchange = _ => render_steps();
+end_color.onchange = _ => render_steps();
+count_color.onchange = _ => render_steps();
 function render_steps() {
     let col_e = document.getElementById('color');
-    if (col_e == null) {
+    if (col_e === null) {
         return;
     }
-    let get_in_val = (name) => col_e.children.namedItem(name).value;
-    let beg = oklab_to_oklch(rgb_to_oklab(hex_to_rgb(get_in_val('color-start'))));
+    let get_in_val = (id) => document.getElementById(id).value;
+    let beg = oklab_to_oklch(rgb_to_oklab(hex_to_rgb(get_in_val('color-beg'))));
     let end = oklab_to_oklch(rgb_to_oklab(hex_to_rgb(get_in_val('color-end'))));
-    let step = parseInt(get_in_val('color-step'));
-    let steps = col_e.children.namedItem('steps');
+    let step = parseInt(get_in_val('color-count'));
+    let steps = document.getElementById('pallete');
     steps.innerHTML = "";
     let colors = color_step(beg, end, step);
     colors.forEach((color, idx) => {
         let element = document.createElement('div');
-        console.log(color);
         let color_hex = rgb_to_hex(oklab_to_rgb(oklch_to_oklab(color)));
+        color.L = color.L + 0.4;
+        if (color.L > 1.0)
+            color.L -= 1;
+        color.c = 0;
+        color.h = color.L + Math.PI;
+        let text_hex = rgb_to_hex(oklab_to_rgb(oklch_to_oklab(color)));
         element.id = `color-${idx}`;
         element.innerText = color_hex;
         element.classList.add(`square`);
         element.style.backgroundColor = color_hex;
+        element.style.color = text_hex;
         steps.appendChild(element);
     });
 }
