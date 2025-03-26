@@ -1,3 +1,25 @@
+
+type rgb_color = {
+    r:number,
+    g:number,
+    b:number,
+}
+
+
+type lch_color = {
+    L:number,
+    c:number,
+    h:number,
+}
+
+type lab_color = {
+    L:number,
+    a:number,
+    b:number,
+}
+
+
+
 const M1 = [
     [ .8189330101,  .3618667424,- .1288597137],
     [ .0329845436,  .9293118715,  .0361456387],
@@ -34,13 +56,7 @@ const iMrgb = [
     [ - .0041960865, - .7034186144,  1.7076147009, ]
 ];
 
-/**
-    * @param {Object} param0
-    * @param {number} param0.L
-    * @param {number} param0.a
-    * @param {number} param0.b
-*/
-function oklab_to_rgb({ L, a, b }) {
+function oklab_to_rgb({L, a, b}: {L: number, a: number, b: number}){
     let l = iM2[0][0] * L + iM2[0][1] * a + iM2[0][2] * b;
     let m = iM2[1][0] * L + iM2[1][1] * a + iM2[1][2] * b;
     let s = iM2[2][0] * L + iM2[2][1] * a + iM2[2][2] * b;
@@ -56,13 +72,7 @@ function oklab_to_rgb({ L, a, b }) {
     };
 }
 
-/**
-    * @param {Object} param0
-    * @param {number} param0.r
-    * @param {number} param0.g
-    * @param {number} param0.b
-*/
-function rgb_to_oklab({r, g, b}){
+function rgb_to_oklab({r, g, b}: {r: number, g: number, b: number}){
     let l = Mrgb[0][0] * r + Mrgb[0][1] * g + Mrgb[0][2] * b;
     let m = Mrgb[1][0] * r + Mrgb[1][1] * g + Mrgb[1][2] * b;
     let s = Mrgb[2][0] * r + Mrgb[2][1] * g + Mrgb[2][2] * b;
@@ -79,35 +89,21 @@ function rgb_to_oklab({r, g, b}){
 
     return lab;
 }
-/**
-    * @param {Object} param0
-    * @param {number} param0.L
-    * @param {number} param0.c
-    * @param {number} param0.h
-*/
-function oklch_to_oklab({ L, c, h }) {
+
+function oklch_to_oklab({ L, c, h } : {L: number, c: number, h:number}) {
     const a = c * Math.cos(h);
     const b = c * Math.sin(h);
     return { L, a, b };
 }
 
-/**
-    * @param {Object} param0
-    * @param {number} param0.L
-    * @param {number} param0.a
-    * @param {number} param0.b
-*/
-function oklab_to_oklch({ L, a, b }) {
+function oklab_to_oklch({ L, a, b } : lab_color) {
     const c = Math.sqrt(a * a + b * b);
     const h = Math.atan2(b, a); // Returns hue in radians
     return { L, c, h };
 }
 
 
-/**
-    * @param {string} hx
-*/
-function hex_to_rgb(hx) {
+function hex_to_rgb(hx: string) {
     hx = hx.replace(/^#/, '');
 
     // Parse the hex string into red, green, and blue components
@@ -118,15 +114,9 @@ function hex_to_rgb(hx) {
     return { r, g, b };
 }
 
-/**
-    * @param {Object} param0
-    * @param {number} param0.r
-    * @param {number} param0.g
-    * @param {number} param0.b
-*/
-function rgb_to_hex({ r, g, b }) {
-    const to_hex = (value) => {
-        let hex = Math.round(value * 255);
+function rgb_to_hex({ r, g, b } : rgb_color) {
+    const to_hex = (val : number) => {
+        let hex = Math.round(val * 255);
         if(hex < 0)
             hex = 0;
         if(hex > 255)
@@ -143,27 +133,16 @@ function rgb_to_hex({ r, g, b }) {
 }
 
 
-/**
-    * @param {Object} beg
-    * @param {number} beg.L
-    * @param {number} beg.c
-    * @param {number} beg.h
-    * @param {Object} end
-    * @param {number} end.L
-    * @param {number} end.c
-    * @param {number} end.h
-    * @param {number} step
-*/
-function color_step(beg, end, step, hue_extra = 0){
+function color_step(beg: lch_color, end: lch_color, step: number){
     step = step - 1;
-    h = end.h - beg.h;
+    let h = end.h - beg.h;
     let delta = {
         L: (end.L - beg.L) / step,
         c: (end.c - beg.c) / step,
         h: h / step,
     }
 
-    let arr = [];
+    let arr : lch_color[] = [];
     for(let i = 0; i <= step; ++i){
         let val = {
             L: beg.L + i * delta.L,
@@ -177,20 +156,19 @@ function color_step(beg, end, step, hue_extra = 0){
 }
 
 function render_steps(){
-    /** @type HTMLDivElement */
-    let col_e = document.getElementById('color');
+    let col_e = document.getElementById('color')! as HTMLDivElement;
     if(col_e == null){
         return;
     }
-    let beg = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( col_e.children['color-beg'].value ) ));
-    let end = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( col_e.children['color-end'].value ) ));
-    let step = parseInt(col_e.children['color-step'].value);
-    let extra = parseInt(col_e.children['color-extra'].value) / 100.;
-    /** @type HTMLDivElement */
-    let steps = col_e.children['steps'];
+
+    let get_in_val = (name: string) => (col_e.children.namedItem(name) as HTMLInputElement).value;
+    let beg = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( get_in_val('color-start') )));
+    let end = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( get_in_val('color-end') )));
+    let step = parseInt(get_in_val('color-step'));
+    let steps = col_e.children.namedItem('steps')! as HTMLDivElement;
     steps.innerHTML = "";
 
-    let colors = color_step(beg, end, step, extra);
+    let colors = color_step(beg, end, step);
     colors.forEach((color, idx) => {
         let element = document.createElement('div');
         console.log(color);
