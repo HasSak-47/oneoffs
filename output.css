@@ -157,9 +157,6 @@
   }
 }
 @layer utilities {
-  .m-10 {
-    margin: calc(var(--spacing) * 10);
-  }
   .m-auto {
     margin: auto;
   }
@@ -183,6 +180,9 @@
   }
   .inline-flex {
     display: inline-flex;
+  }
+  .h-40 {
+    height: calc(var(--spacing) * 40);
   }
   .h-fit {
     height: fit-content;
@@ -226,12 +226,18 @@
 @layer components {
   .square {
     display: flex;
-    height: calc(var(--spacing) * 20);
-    max-width: calc(var(--spacing) * 30);
-    min-width: calc(var(--spacing) * 20);
-    flex: 1;
+    height: calc(var(--spacing) * 30);
+    width: calc(var(--spacing) * 30);
+    cursor: pointer;
     align-items: center;
     justify-content: center;
+    -webkit-user-select: none;
+    user-select: none;
+    &:hover {
+      @media (hover: hover) {
+        height: calc(var(--spacing) * 32);
+      }
+    }
   }
   .input-color {
     aspect-ratio: 1 / 1;

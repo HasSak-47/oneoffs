@@ -145,6 +145,9 @@ function render_steps() {
         element.classList.add(`square`);
         element.style.backgroundColor = color_hex;
         element.style.color = text_hex;
+        element.onclick = _ => {
+            navigator.clipboard.writeText(color_hex);
+        };
         steps.appendChild(element);
     });
 }
