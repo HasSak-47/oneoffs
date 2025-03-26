@@ -161,7 +161,7 @@ function render_steps(){
         return;
     }
 
-    let get_in_val = (name: string) => (col_e.children.namedItem(name) as HTMLInputElement).value;
+    let get_in_val = (name: string) => (col_e.children[name] as HTMLInputElement).value;
     let beg = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( get_in_val('color-start') )));
     let end = oklab_to_oklch( rgb_to_oklab( hex_to_rgb( get_in_val('color-end') )));
     let step = parseInt(get_in_val('color-step'));
