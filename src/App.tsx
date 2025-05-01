@@ -1,3 +1,5 @@
+import PalleteGenerator from './PalletGenerator'
+
 export default function App() {
-  return <div> hello world </div>;
+  return PalleteGenerator()
 }
