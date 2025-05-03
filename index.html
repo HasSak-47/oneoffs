@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" class="w-full h-full">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
-        <link href="output.css" rel="stylesheet">
-    </head>
-    <body class="w-full h-full">
-        <h1 class="flex flex-col font-bold text-4xl h-fit w-full justify-center text-center">Pallete generator:</h1>
-        <div id="color" class="w-full flex flex-wrap p-4 justify-center items-center">
-            <div id="settings" class="m-auto inline-flex flex-wrap justify-center items-center text-center">
-                <div id="beg-settings" class="block w-fit mr-2 ml-auto">
-                    <label for="color-beg" class="block"> beg color: </label>
-                    <input type="color" id="color-beg" class="input-color" value="#000000">
-                </div>
-                <div id="end-settings" class="block w-fit ml-2 mr-auto">
-                    <label for="color-end" class="block"> end color: </label>
-                    <input type="color" id="color-end" class="input-color" value="#000000">
-                </div>
 
-                <div id="count-settings" class="block w-full">
-                    <label for="color-count"> number of colors: </label>
-                    <input type="number" id="color-count" min="2" value="5">
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="output.css" rel="stylesheet">
+</head>
+
+<body class="h-full w-full">
+    <h1 class="h-fit flex-col flex font-bold text-4xl w-full justify-center text-center">Pallete generator:</h1>
+    <div id="color" class="w-full flex-wrap flex p-4 justify-center items-center">
+        <div id="settings" class="m-auto inline-flex flex-wrap justify-center items-center text-center">
+            <div id="beg-settings" class="block w-fit mr-2 ml-auto">
+                <label for="color-beg" class="block"> beg color: </label>
+                <input type="color" id="color-beg" class="input-color" value="#000000">
+            </div>
+            <div id="end-settings" class="block w-fit ml-2 mr-auto">
+                <label for="color-end" class="block"> end color: </label>
+                <input type="color" id="color-end" class="input-color" value="#000000">
             </div>
 
-            <div id="pallete" class="w-full h-40 flex flex-wrap items-center justify-center">
+            <div id="count-settings" class="block w-full">
+                <label for="color-count"> Number of colors: </label>
+                <input type="number" id="color-count" min="2" value="5">
             </div>
         </div>
-    
-    </body>
-    <script src="dist/color.js"></script>
+
+        <div id="pallete" class="w-full h-40 flex flex-wrap items-center justify-center">
+        </div>
+    </div>
+
+</body>
+<script src="dist/color.js"></script>
+
 </html>
