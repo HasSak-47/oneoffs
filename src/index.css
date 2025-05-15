@@ -1,92 +1,100 @@
 @import 'tailwindcss';
 
 @theme {
-	--font-mono: 'Fira Code', monospace;
-	/* Bg Shades */
-	--color-sumiInk0: #16161D;
-	--color-sumiInk1: #181820;
-	--color-sumiInk2: #1a1a22;
-	--color-sumiInk3: #1F1F28;
-	--color-sumiInk4: #2A2A37;
-	--color-sumiInk5: #363646;
-	/*fg */
-	--color-sumiInk6: #54546D;
+    --font-mono: 'Fira Code', monospace;
+    /* Bg Shades */
+    --color-sumiInk0: #16161D;
+    --color-sumiInk1: #181820;
+    --color-sumiInk2: #1a1a22;
+    --color-sumiInk3: #1F1F28;
+    --color-sumiInk4: #2A2A37;
+    --color-sumiInk5: #363646;
+    /*fg */
+    --color-sumiInk6: #54546D;
 
-	/* Popup and Floats */
-	--color-waveBlue1: #223249;
-	--color-waveBlue2: #2D4F67;
+    /* Popup and Floats */
+    --color-waveBlue1: #223249;
+    --color-waveBlue2: #2D4F67;
 
-	/* Diff and Git */
-	--color-winterGreen: #2B3328;
-	--color-winterYellow: #49443C;
-	--color-winterRed: #43242B;
-	--color-winterBlue: #252535;
-	--color-autumnGreen: #76946A;
-	--color-autumnRed: #C34043;
-	--color-autumnYellow: #DCA561;
+    /* Diff and Git */
+    --color-winterGreen: #2B3328;
+    --color-winterYellow: #49443C;
+    --color-winterRed: #43242B;
+    --color-winterBlue: #252535;
+    --color-autumnGreen: #76946A;
+    --color-autumnRed: #C34043;
+    --color-autumnYellow: #DCA561;
 
-	/* Diag */
-	--color-samuraiRed: #E82424;
-	--color-roninYellow: #FF9E3B;
-	--color-waveAqua1: #6A9589;
-	--color-dragonBlue: #658594;
+    /* Diag */
+    --color-samuraiRed: #E82424;
+    --color-roninYellow: #FF9E3B;
+    --color-waveAqua1: #6A9589;
+    --color-dragonBlue: #658594;
 
-	/* Fg and Comments */
-	--color-oldWhite: #C8C093;
-	--color-fujiWhite: #DCD7BA;
-	--color-fujiGray: #727169;
+    /* Fg and Comments */
+    --color-oldWhite: #C8C093;
+    --color-fujiWhite: #DCD7BA;
+    --color-fujiGray: #727169;
 
-	--color-oniViolet: #957FB8;
-	--color-oniViolet2: #b8b4d0;
-	--color-crystalBlue: #7E9CD8;
-	--color-springViolet1: #938AA9;
-	--color-springViolet2: #9CABCA;
-	--color-springBlue: #7FB4CA;
-	--color-lightBlue: #A3D4D5;
-	/* unused yet */
-	--color-waveAqua2: #7AA89F;
-	/* improve lightness: desaturated greenish Aqua */
+    --color-oniViolet: #957FB8;
+    --color-oniViolet2: #b8b4d0;
+    --color-crystalBlue: #7E9CD8;
+    --color-springViolet1: #938AA9;
+    --color-springViolet2: #9CABCA;
+    --color-springBlue: #7FB4CA;
+    --color-lightBlue: #A3D4D5;
+    /* unused yet */
+    --color-waveAqua2: #7AA89F;
+    /* improve lightness: desaturated greenish Aqua */
 
-	/* waveAqua2  = #68AD99, */
-	/* waveAqua4  = #7AA880, */
-	/* waveAqua5  = #6CAF95, */
-	/* waveAqua3  = #68AD99, */
+    /* waveAqua2  = #68AD99, */
+    /* waveAqua4  = #7AA880, */
+    /* waveAqua5  = #6CAF95, */
+    /* waveAqua3  = #68AD99, */
 
-	--color-springGreen: #98BB6C;
-	--color-boatYellow1: #938056;
-	--color-boatYellow2: #C0A36E;
-	--color-carpYellow: #E6C384;
+    --color-springGreen: #98BB6C;
+    --color-boatYellow1: #938056;
+    --color-boatYellow2: #C0A36E;
+    --color-carpYellow: #E6C384;
 
-	--color-sakuraPink: #D27E99;
-	--color-waveRed: #E46876;
-	--color-peachRed: #FF5D62;
-	--color-surimiOrange: #FFA066;
-	--color-katanaGray: #717C7C;
+    --color-sakuraPink: #D27E99;
+    --color-waveRed: #E46876;
+    --color-peachRed: #FF5D62;
+    --color-surimiOrange: #FFA066;
+    --color-katanaGray: #717C7C;
 }
 
 @layer components {
-	.util button {
-		@apply w-full text-center cursor-pointer text-xl p-3 bg-sumiInk5 rounded-xl m-2 text-fujiWhite duration-400 ease-out
-	}
+    #utils-root {
+        @apply flex flex-col h-full
+    }
 
-	.util button:hover {
-		@apply bg-sumiInk6 scale-110
-	}
+    #utils-root #utils {
+        @apply m-auto w-fit bg-sumiInk2 rounded-xl flex flex-col p-10 space-y-5 justify-center text-center
+    }
 
-	/* pallets */
-	.color-picker {
-		@apply p-1 w-fit
-	}
+    .util {
+        @apply w-full h-fit text-oldWhite bg-sumiInk3 justify-center p-4 text-2xl rounded-xl
+    }
 
-	.color-picker-square {
-		@apply w-full flex-1 aspect-square rounded-xl shadow bg-black m-1 hover:scale-110 cursor-pointer
-	}
+    .util:hover {
+        @apply bg-sumiInk6 scale-110
+    }
 
-	.color-picker-sliders {
-		@apply flex flex-col
-	}
+    /* pallets */
+    .color-picker {
+        @apply p-1 w-fit flex md:min-w-fit md:w-1/3
+    }
 
-	.color-picker-slider {
-		@apply appearance-none rounded-xl m-1
-	}
+    .color-picker-square {
+        @apply md:min-w-[200px] md:min-h-[200px] w-full rounded-xl shadow bg-black hover:scale-110 cursor-pointer aspect-square
+    }
+
+    .color-picker-sliders {
+        @apply flex flex-col
+    }
+
+    .color-picker-slider {
+        @apply appearance-none rounded-xl m-1 h-full
+    }
 }
