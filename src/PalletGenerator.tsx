@@ -1,5 +1,6 @@
 import { ChangeEventHandler, useState } from 'react'
 import { oklab_to_rgb, oklch_to_oklab, rgb_to_hex } from './color'
+import Header from './Header'
 
 
 function ColorPicker() {
@@ -30,7 +31,7 @@ function ColorPicker() {
 	}
 
 	const sliderMaker = (def: number, bg_image: string, on: ChangeEventHandler<HTMLInputElement>) => {
-		return <input
+		return <div> <input
 			className='color-picker-slider'
 			type='range'
 			max='1000'
@@ -42,6 +43,10 @@ function ColorPicker() {
 			}}
 			onChange={on}
 		/>
+			<div className=''>
+				{def}
+			</div>
+		</div>
 	};
 
 	const bg_rainbow = `linear-gradient(to right, ${gradient_maker()})`
@@ -68,15 +73,17 @@ function ColorPicker() {
 	)
 }
 export default function PalletGenerator() {
-	return <div id='pallet-generator' >
-
-		<div id='options' >
-		</div>
-		<div id='sliders'>
-			<ColorPicker />
-			<ColorPicker />
+	return (<div id='pallet-generator' >
+		<Header name="PalletGenerator" ret />
+		<div id='pallet-left-col'>
+			<div id='options' >
+			</div>
+			<div id='sliders'>
+				<ColorPicker />
+				<ColorPicker />
+			</div>
 		</div>
 		<div id='colors'>
 		</div>
-	</div>
+	</div>);
 }

@@ -2,22 +2,19 @@ import PalleteGenerator from "./PalletGenerator";
 import Notes from "./Notes";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router";
+import Header from "./Header";
 
 function Options() {
-	return (
-		<div id='utils' className='w-fit bg-sumiInk1 rounded-xl'>
-			<div id='Pallet Generator' className='util'>
-				<Link to="/pallet-generator">
-					<button>Pallet Generator</button>
-				</Link>
-			</div>
-			<div id='Notes' className='util'>
-				<Link to="/notes">
-					<button>Notes</button>
-				</Link>
-			</div>
+	return <div id='utils-root' >
+		<Header name="Utils" />
+		<div id='utils'>
+			<Link id='PalletGenerator' className='util' to="/pallet-generator">
+				Pallet Generator
+			</Link>
+			<Link id='Notes' className='util' to="/notes"> Notes </Link>
+			<Link id='Notes' className='util' to="/notes"> Vim Golf </Link>
 		</div>
-	);
+	</div>;
 }
 export default function App() {
 	return (
