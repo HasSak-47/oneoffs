@@ -14,4 +14,4 @@ this is the stuff that I need/want to do
 
 this is are utils that I may need but don't want to do
 
-### Mindmap stuff
+- Mindmap stuff
