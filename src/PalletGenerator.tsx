@@ -87,16 +87,15 @@ function ColorPicker() {
 }
 export default function PalletGenerator() {
 	return (
-		<div id='pallet-generator'>
-			<Header name='PalletGenerator' ret />
-			<div id='pallet-left-col'>
-				<div id='options'></div>
-				<div id='sliders' className=''>
-					<ColorPicker />
-					<ColorPicker />
-				</div>
+		<div id='pallet-generator' className='h-full w-full'>
+			<div id='pallet-config' className='m-auto mt-10 w-fit'>
+				<label className='text-oldWhite'> edges: </label>
+				<input className='text-oldWhite text-right' type='number' />
 			</div>
-			<div id='colors'></div>
+			<div id='pallet-polygon' className='m-auto mt-10 w-fit'>
+				<label className='text-oldWhite'> edges: </label>
+				<input className='text-oldWhite text-right' type='number' />
+			</div>
 		</div>
 	);
 }
