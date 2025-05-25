@@ -1,113 +1,88 @@
 @import 'tailwindcss';
 
 @theme {
-	--font-mono: 'Fira Code', monospace;
-	/* Bg Shades */
-	--color-sumiInk0: #16161d;
-	--color-sumiInk1: #181820;
-	--color-sumiInk2: #1a1a22;
-	--color-sumiInk3: #1f1f28;
-	--color-sumiInk4: #2a2a37;
-	--color-sumiInk5: #363646;
-	/*fg */
-	--color-sumiInk6: #54546d;
+  --font-mono: 'Fira Code', monospace;
+  /* Bg Shades */
+  --color-sumiInk0: #16161d;
+  --color-sumiInk1: #181820;
+  --color-sumiInk2: #1a1a22;
+  --color-sumiInk3: #1f1f28;
+  --color-sumiInk4: #2a2a37;
+  --color-sumiInk5: #363646;
+  /*fg */
+  --color-sumiInk6: #54546d;
 
-	/* Popup and Floats */
-	--color-waveBlue1: #223249;
-	--color-waveBlue2: #2d4f67;
+  /* Popup and Floats */
+  --color-waveBlue1: #223249;
+  --color-waveBlue2: #2d4f67;
 
-	/* Diff and Git */
-	--color-winterGreen: #2b3328;
-	--color-winterYellow: #49443c;
-	--color-winterRed: #43242b;
-	--color-winterBlue: #252535;
-	--color-autumnGreen: #76946a;
-	--color-autumnRed: #c34043;
-	--color-autumnYellow: #dca561;
+  /* Diff and Git */
+  --color-winterGreen: #2b3328;
+  --color-winterYellow: #49443c;
+  --color-winterRed: #43242b;
+  --color-winterBlue: #252535;
+  --color-autumnGreen: #76946a;
+  --color-autumnRed: #c34043;
+  --color-autumnYellow: #dca561;
 
-	/* Diag */
-	--color-samuraiRed: #e82424;
-	--color-roninYellow: #ff9e3b;
-	--color-waveAqua1: #6a9589;
-	--color-dragonBlue: #658594;
+  /* Diag */
+  --color-samuraiRed: #e82424;
+  --color-roninYellow: #ff9e3b;
+  --color-waveAqua1: #6a9589;
+  --color-dragonBlue: #658594;
 
-	/* Fg and Comments */
-	--color-oldWhite: #c8c093;
-	--color-fujiWhite: #dcd7ba;
-	--color-fujiGray: #727169;
+  /* Fg and Comments */
+  --color-oldWhite: #c8c093;
+  --color-fujiWhite: #dcd7ba;
+  --color-fujiGray: #727169;
 
-	--color-oniViolet: #957fb8;
-	--color-oniViolet2: #b8b4d0;
-	--color-crystalBlue: #7e9cd8;
-	--color-springViolet1: #938aa9;
-	--color-springViolet2: #9cabca;
-	--color-springBlue: #7fb4ca;
-	--color-lightBlue: #a3d4d5;
-	/* unused yet */
-	--color-waveAqua2: #7aa89f;
-	/* improve lightness: desaturated greenish Aqua */
+  --color-oniViolet: #957fb8;
+  --color-oniViolet2: #b8b4d0;
+  --color-crystalBlue: #7e9cd8;
+  --color-springViolet1: #938aa9;
+  --color-springViolet2: #9cabca;
+  --color-springBlue: #7fb4ca;
+  --color-lightBlue: #a3d4d5;
+  /* unused yet */
+  --color-waveAqua2: #7aa89f;
+  /* improve lightness: desaturated greenish Aqua */
 
-	/* waveAqua2  = #68AD99, */
-	/* waveAqua4  = #7AA880, */
-	/* waveAqua5  = #6CAF95, */
-	/* waveAqua3  = #68AD99, */
+  /* waveAqua2  = #68AD99, */
+  /* waveAqua4  = #7AA880, */
+  /* waveAqua5  = #6CAF95, */
+  /* waveAqua3  = #68AD99, */
 
-	--color-springGreen: #98bb6c;
-	--color-boatYellow1: #938056;
-	--color-boatYellow2: #c0a36e;
-	--color-carpYellow: #e6c384;
+  --color-springGreen: #98bb6c;
+  --color-boatYellow1: #938056;
+  --color-boatYellow2: #c0a36e;
+  --color-carpYellow: #e6c384;
 
-	--color-sakuraPink: #d27e99;
-	--color-waveRed: #e46876;
-	--color-peachRed: #ff5d62;
-	--color-surimiOrange: #ffa066;
-	--color-katanaGray: #717c7c;
+  --color-sakuraPink: #d27e99;
+  --color-waveRed: #e46876;
+  --color-peachRed: #ff5d62;
+  --color-surimiOrange: #ffa066;
+  --color-katanaGray: #717c7c;
 }
 
 @layer components {
-	#utils-root {
-		@apply flex h-full flex-col;
-	}
+  #utils-root {
+    @apply flex h-full flex-col;
+  }
 
-	#utils-root #utils {
-		@apply bg-sumiInk2 m-auto flex w-fit flex-col justify-center space-y-5 rounded-xl p-10 text-center;
-	}
+  #utils-root #utils {
+    @apply bg-sumiInk2 m-auto flex w-fit flex-col justify-center space-y-5 rounded-xl p-10 text-center;
+  }
 
-	.util {
-		@apply text-oldWhite bg-sumiInk3 h-fit w-full justify-center rounded-xl p-4 text-2xl;
-	}
+  .util {
+    @apply text-oldWhite bg-sumiInk3 h-fit w-full justify-center rounded-xl p-4 text-2xl;
+  }
 
-	.util:hover {
-		@apply bg-sumiInk6 scale-110;
-	}
+  .util:hover {
+    @apply bg-sumiInk6 scale-110;
+  }
 
-	/* pallets */
-	#pallet-left-col {
-		@apply m-auto mt-3 h-full max-w-fit md:m-3;
-	}
-
-	.color-picker {
-		@apply w-fit p-1 md:flex md:w-1/3 md:min-w-fit;
-	}
-
-	.color-picker-square {
-		@apply aspect-square min-h-[200px] w-full min-w-[200px] cursor-pointer rounded-xl bg-black shadow hover:scale-110 md:max-h-[250px] md:max-w-[250px];
-	}
-
-	.color-picker-sliders {
-		@apply flex flex-col;
-	}
-
-	/* slider + val */
-	.color-picker-slider {
-		@apply m-1 flex h-full appearance-none rounded-xl;
-	}
-
-	.color-picker-slider-slider {
-		@apply appearance-none rounded-xl;
-	}
-
-	.color-picker-slider-text {
-		@apply text-oldWhite hidden w-24 text-right text-2xl md:block;
-	}
+  /* pallets */
+  #pallet-left-col {
+    @apply m-auto mt-3 h-full max-w-fit md:m-3;
+  }
 }
