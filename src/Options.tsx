@@ -39,6 +39,9 @@ function Options() {
 		} else if (e.key === 'ArrowUp' || e.key === 'k') {
 			e.preventDefault();
 			setFocusedIndex(move(-1, links.length - 1));
+		} else if (e.key === 'Escape') {
+			e.preventDefault();
+			setFocusedIndex(null);
 		}
 	};
 
@@ -74,8 +77,7 @@ function Options() {
 							setFocusedIndex(index);
 						}}
 						onMouseLeave={(_) => {
-							if (focusedIndex !== null)
-								linkRefs.current[focusedIndex]?.focus();
+							if (focusedIndex !== null) linkRefs.current[focusedIndex]?.blur();
 							setFocusedIndex(null);
 						}}
 					>
