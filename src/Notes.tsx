@@ -1,4 +1,9 @@
+import Header from './Header';
 
 export default function Notes() {
-	return <div />;
+	return (
+		<div>
+			<Header name='Notes' ret={true} />
+		</div>
+	);
 }
