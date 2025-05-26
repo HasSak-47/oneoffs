@@ -85,6 +85,77 @@ function ColorPicker() {
 		</div>
 	);
 }
+
+function getPolygonPoints(n, radius, centerX, centerY) {
+	const angleStep = (2 * Math.PI) / n;
+	const points = [];
+	for (let i = 0; i < n; i++) {
+		const angle = i * angleStep - Math.PI / 2; // rotate to start from top
+		const x = centerX + radius * Math.cos(angle);
+		const y = centerY + radius * Math.sin(angle);
+		points.push([x, y]);
+
+		return points;
+
+
+		function ColoredPolygon({ n = 6, size = 300, edgeColors = [] }) {
+			const center = size / 2;
+			const radius = center * 0.8;
+			const points = getPolygonPoints(n, radius, center, center);
+
+			// Extend edgeColors to match number of edges
+			const colors = Array.from(
+				{ length: n },
+				(_, i) => edgeColors[i % edgeColors.length]
+			);
+
+			const polygonId = `polygon-gradient-${n}`;
+
+			rn(
+				width = { size } height = { size } viewBox = {`0 0 ${size} ${size}`}>
+					s >
+					ialGradient id = { polygonId } cx = '50%' cy = '50%' r = '50%' >
+					{
+						colors.map((color, i) => (
+							<stop
+								key={i}
+								offset={`${(i / (n - 1)) * 100}%`}
+								stopColor={color}
+							/>
+						))
+					}
+				</radialGradient >
+			defs >
+
+			{/* Fill with radial gradient */ }
+			< polygon
+		points = { points.map((p) => p.join(',')).join(' ') }
+		fill = {`url(#${polygonId})`
+	}
+	stroke = 'none'
+					
+						
+						dividual edge strokes */
+}
+s.map((start, i) => {
+						t end = points[(i + 1) % n];
+	rn(
+		ine
+						key = { i }
+					  x1 = { start[0]}
+				    y1 = { start[1]}
+			      x2 = { end[0]}
+		        y2 = { end[1]}
+	          stroke = { colors[i]}
+            strokeWidth = { 3}
+		/>
+        );
+})}
+    </svg >
+  );
+}
+
+export default ColoredPolygon;
 export default function PalletGenerator() {
 	return (
 		<div id='pallet-generator' className='h-full w-full'>
