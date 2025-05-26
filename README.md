@@ -2,6 +2,10 @@
 
 this is the stuff that I need/want to do
 
+## Options
+
+make it when the mouse leaves it defocuses
+
 ## PalletGenerator
 
 ## Note taking
