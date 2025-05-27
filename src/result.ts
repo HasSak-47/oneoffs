@@ -22,6 +22,26 @@ export class Result<T, E = Error> {
   static err<T, E = Error>(value: E) {
     return new Result<T, E>({ data: null, error: value });
   }
+
+  unwrap() {
+    if (this.inner.error !== null) {
+      throw 'unwrapped a nil value';
+    }
+
+    return this.inner.data;
+  }
+
+  unwrap_err() {
+    if (this.inner.error === null) {
+      throw 'unwrapped a nil error';
+    }
+
+    return this.inner.error;
+  }
+
+  ok() {
+    return this.inner.error !== null;
+  }
 }
 
 export function try_catch<T, F extends (...params: any[]) => T, E = Error>(
