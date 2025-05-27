@@ -96,7 +96,7 @@ function Options() {
         </div>
       </div>
 
-      <footer className='text-autumnYellow mt-auto hidden py-4 text-center text-sm opacity-60 md:block'>
+      <footer className='mt-auto hidden py-4 text-center text-sm font-bold text-white opacity-60 md:block'>
         <p>Use keyboard or vim motions arrows to navigate. Enter to select</p>
       </footer>
     </div>

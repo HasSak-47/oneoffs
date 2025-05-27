@@ -69,7 +69,7 @@
 
 	html,
 	body {
-		@apply text-oldWhite;
+		@apply text-white;
 	}
 }
 
