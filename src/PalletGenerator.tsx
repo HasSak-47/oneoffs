@@ -2,6 +2,7 @@ import { ChangeEventHandler, useState } from 'react';
 import { oklab_to_rgb, oklch_to_oklab, rgb_to_hex } from './color';
 import Header from './Header';
 
+// @ts-ignore
 function ColorPicker() {
   const [L, setl] = useState(0.8);
   const [c, setc] = useState(0.3);

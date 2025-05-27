@@ -207,7 +207,7 @@ export default function Notes() {
     })()
   );
 
-  const [file, setFile] = useState(null);
+  const [file, _] = useState(null);
 
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
