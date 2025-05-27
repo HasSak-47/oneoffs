@@ -8,14 +8,12 @@ make it when the mouse leaves it defocuses
 
 ## PalletGenerator
 
+Uses OkLch/OkLab to generate a pallet from 2 colors
+
 ## Note taking
 
-## Task Manager
+Simple note taking site
 
-## FACTORIO CALCULATOR
+## Blog
 
-## Other Utils
-
-this is are utils that I may need but don't want to do
-
-- Mindmap stuff
+Simple blog that renders .md
