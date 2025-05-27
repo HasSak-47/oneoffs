@@ -192,11 +192,9 @@ function TreeNode({
               const aIsFolder = typeof aNode !== 'string';
               const bIsFolder = typeof bNode !== 'string';
 
-              // Folders first
               if (aIsFolder && !bIsFolder) return -1;
               if (!aIsFolder && bIsFolder) return 1;
 
-              // Then sort alphabetically
               return aName.localeCompare(bName);
             })
             .map(([childName, childNode]) => (
@@ -270,7 +268,7 @@ export default function Notes() {
   };
 
   return (
-    <div className='relative h-full'>
+    <div className='relative flex h-full flex-col'>
       <Header name='Notes' ret={true} />
 
       {!showExplorer && (
@@ -282,7 +280,8 @@ export default function Notes() {
         </button>
       )}
 
-      <div className='flex flex-row justify-between'>
+      <div className='flex flex-1 justify-between'>
+        {/* div full or empty for the text area*/}
         {filePath !== null ? (
           <form
             onSubmit={(e) => {
@@ -291,24 +290,38 @@ export default function Notes() {
                 root.set(filePath, text);
               }
             }}
+            className='flex h-full flex-1 flex-col'
           >
-            <button
-              type='button'
-              className='text-waveRed relative h-6 w-6'
-              onClick={() => setFilePath(null)}
-            >
-              <XMarkIcon />
-            </button>
-            <button type='submit' className='text-waveAqua1 relative h-6 w-6'>
-              <CheckIcon />
-            </button>
-            <textarea value={text} onChange={(e) => setText(e.target.value)} />
+            {/* Button Row */}
+            <div className='flex justify-end gap-2 p-2'>
+              <div className='text-oldWhite'>{filePath}</div>
+              <button
+                type='button'
+                className='text-waveRed h-6 w-6'
+                onClick={() => setFilePath(null)}
+              >
+                <XMarkIcon />
+              </button>
+              <button type='submit' className='text-waveAqua1 h-6 w-6'>
+                <CheckIcon />
+              </button>
+            </div>
+
+            {/* Textarea fills the rest */}
+            <div className='flex-grow p-2'>
+              <textarea
+                className='border-sumiInk5 bg-sumiInk3 text-oldWhite h-full w-full resize-none rounded-md border-4 p-4'
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+            </div>
           </form>
         ) : (
           <div />
         )}
 
-        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden h-200 w-1/4 max-w-[360px] min-w-[220px] overflow-scroll rounded-2xl border-4 p-2 md:block'>
+        {/* panel for the explorer */}
+        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-scroll rounded-2xl border-4 p-2 md:block'>
           <TreeNode
             name='root'
             node={root}
