@@ -130,10 +130,8 @@ function TreeNode({
     );
   }
 
-  const [showAlert, setShowAlert] = useState(false);
-
   return (
-    <div className='text-oldWhite mt-1 ml-2'>
+    <div className='text-oldWhite'>
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
           <button onClick={() => setOpen(!open)}>
@@ -201,12 +199,13 @@ export default function Notes() {
   const [root, setRoot] = useState(
     (() => {
       let folder = new Folder();
-      folder.add_file('readme.txt', 'Welcome');
-      folder.add_file('intro.txt', 'Intro content');
-      folder.add_folder('folder');
+      folder.add_file('readme', 'Welcome');
+      folder.add_file('intro', 'Intro content');
       return folder;
     })()
   );
+
+  const [file, setFile] = useState(null);
 
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
@@ -242,17 +241,20 @@ export default function Notes() {
   };
 
   return (
-    <div className=''>
+    <div className='h-full'>
       <Header name='Notes' ret={true} />
-      <div className='w-1/4'>
-        <TreeNode
-          name='root'
-          node={root}
-          path=''
-          onAddFile={handleAddFile}
-          onAddFolder={handleAddFolder}
-          onDelete={handleDelete}
-        />
+      <div className='flex flex-row justify-between'>
+        {file !== null ? <div></div> : <div />}
+        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden h-200 w-1/4 max-w-[360px] min-w-[220px] overflow-scroll rounded-2xl border-4 p-2 md:inline'>
+          <TreeNode
+            name='root'
+            node={root}
+            path=''
+            onAddFile={handleAddFile}
+            onAddFolder={handleAddFolder}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
     </div>
   );
