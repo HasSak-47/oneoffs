@@ -7,6 +7,8 @@ import {
   FolderPlusIcon,
   FolderOpenIcon,
   TrashIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/16/solid';
 
 class Folder {
@@ -240,12 +242,25 @@ export default function Notes() {
     });
   };
 
+  const [showExplorer, setShowExplorer] = useState(false);
+
   return (
-    <div className='h-full'>
+    <div className='relative h-full'>
       <Header name='Notes' ret={true} />
+
+      {!showExplorer && (
+        <button
+          className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-4 shadow-lg md:hidden'
+          onClick={() => setShowExplorer((prev) => !prev)}
+        >
+          <Bars3Icon className='text-oldWhite w-3/4' />
+        </button>
+      )}
+
       <div className='flex flex-row justify-between'>
         {file !== null ? <div></div> : <div />}
-        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden h-200 w-1/4 max-w-[360px] min-w-[220px] overflow-scroll rounded-2xl border-4 p-2 md:inline'>
+
+        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden h-200 w-1/4 max-w-[360px] min-w-[220px] overflow-scroll rounded-2xl border-4 p-2 md:block'>
           <TreeNode
             name='root'
             node={root}
@@ -255,6 +270,25 @@ export default function Notes() {
             onDelete={handleDelete}
           />
         </div>
+
+        {showExplorer && (
+          <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-scroll rounded-2xl border-4 p-2 md:hidden'>
+            <button
+              className='text-waveRed relative h-6 w-6'
+              onClick={() => setShowExplorer((prev) => !prev)}
+            >
+              <XMarkIcon />
+            </button>
+            <TreeNode
+              name='root'
+              node={root}
+              path=''
+              onAddFile={handleAddFile}
+              onAddFolder={handleAddFolder}
+              onDelete={handleDelete}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
