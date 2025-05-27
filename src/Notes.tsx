@@ -280,6 +280,7 @@ export default function Notes() {
       {!showExplorer && (
         <button
           className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg md:hidden'
+          aria-label='Toggle folder'
           onClick={() => setShowExplorer((prev) => !prev)}
         >
           <Bars3Icon className='text-oldWhite w-3/4' />
@@ -304,12 +305,14 @@ export default function Notes() {
               <button
                 type='button'
                 className='text-waveRed h-6 w-6 cursor-pointer'
+                aria-label='Close file'
                 onClick={() => setFilePath(null)}
               >
                 <XMarkIcon />
               </button>
               <button
                 type='submit'
+                aria-label='Save file'
                 className='text-waveAqua1 h-6 w-6 cursor-pointer'
               >
                 <CheckIcon />
@@ -348,6 +351,7 @@ export default function Notes() {
             <button
               className='text-waveRed relative h-6 w-6'
               onClick={() => setShowExplorer((prev) => !prev)}
+              aria-label='Delete Folder'
             >
               <XMarkIcon />
             </button>
