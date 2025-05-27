@@ -73,29 +73,34 @@ class Folder {
 
     for (const part of parts) {
       if (!(part in current.inner) || typeof current.inner[part] === 'string') {
-        current.inner[part] = new Folder();
+        console.error('file not found');
+        break;
       }
       current = current.inner[part] as Folder;
     }
 
     current.inner[fileName] = data;
   }
-  get(path: string): Folder | string | undefined {
-    const parts = path.split('/');
+
+  get(path: string) {
+    const parts = path.replace(/^\/+|\/+$/g, '').split('/');
     let current: Folder = this;
 
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
+
       const entry = current.inner[part];
 
-      if (entry === undefined) return undefined;
+      if (entry === undefined) return null;
 
       if (i === parts.length - 1) return entry;
       else {
-        if (typeof entry === 'string') return undefined;
+        if (typeof entry === 'string') return null;
         current = entry;
       }
     }
+
+    return current;
   }
 
   clone(): Folder {
@@ -132,6 +137,7 @@ function TreeNode({
 }: TreeProps) {
   const [open, setOpen] = useState(true);
 
+  /* render file */
   if (typeof node === 'string') {
     return (
       <div className='flex items-center justify-between space-x-2'>
@@ -151,6 +157,7 @@ function TreeNode({
     );
   }
 
+  /* render folder */
   return (
     <div className='text-oldWhite'>
       <div className='flex items-center justify-between space-x-2'>
@@ -228,7 +235,7 @@ export default function Notes() {
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
     fn(newRoot);
-    console.log(newRoot);
+
     setRoot(newRoot);
   };
 
@@ -245,7 +252,7 @@ export default function Notes() {
     if (!name) return;
     update((folder) => {
       let p = `${path}/${name}`;
-      console.log(p);
+
       folder.add_folder(p);
     });
   };
@@ -253,7 +260,6 @@ export default function Notes() {
   const handleDelete = (path: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     update((folder: Folder) => {
-      console.log(typeof folder);
       folder.delete(path);
     });
   };
@@ -262,9 +268,12 @@ export default function Notes() {
   const [text, setText] = useState('');
 
   const [filePath, setFilePath] = useState<string | null>(null);
-  const handleSelection = (s: string) => {
-    setFilePath(s);
-    setText('');
+  const handleSelection = (path: string) => {
+    setFilePath(path);
+    const data = root.get(path);
+
+    if (typeof data === 'string') setText(data);
+    else setText('');
   };
 
   return (
@@ -286,7 +295,7 @@ export default function Notes() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (filePath) {
+              if (filePath !== null) {
                 root.set(filePath, text);
               }
             }}
@@ -297,12 +306,15 @@ export default function Notes() {
               <div className='text-oldWhite'>{filePath}</div>
               <button
                 type='button'
-                className='text-waveRed h-6 w-6'
+                className='text-waveRed h-6 w-6 cursor-pointer'
                 onClick={() => setFilePath(null)}
               >
                 <XMarkIcon />
               </button>
-              <button type='submit' className='text-waveAqua1 h-6 w-6'>
+              <button
+                type='submit'
+                className='text-waveAqua1 h-6 w-6 cursor-pointer'
+              >
                 <CheckIcon />
               </button>
             </div>
@@ -320,7 +332,7 @@ export default function Notes() {
           <div />
         )}
 
-        {/* panel for the explorer */}
+        {/* panel for the explorer on !mobile */}
         <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-scroll rounded-2xl border-4 p-2 md:block'>
           <TreeNode
             name='root'
@@ -333,6 +345,7 @@ export default function Notes() {
           />
         </div>
 
+        {/* panel for the explorer on mobile */}
         {showExplorer && (
           <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-scroll rounded-2xl border-4 p-2 md:hidden'>
             <button
