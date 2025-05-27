@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Tetris from './Tetris';
 import PalletGenerator from './PalletGenerator';
 import Options from './Options';
+import Blog, { BlogHome, BlogPost } from './Blog';
 
 export default function App() {
   return (
@@ -10,6 +11,10 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Options />} />
         <Route path='/tetris' element={<Tetris />} />
+        <Route path='/blog' element={<Blog />}>
+          <Route index element={<BlogHome />} />
+          <Route path=':slug' element={<BlogPost />} />
+        </Route>
         <Route path='/PalletGenerator' element={<PalletGenerator />} />
         <Route path='/notes' element={<Notes />} />
       </Routes>

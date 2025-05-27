@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 
 function Options() {
-  const links = ['notes', 'PalletGenerator', 'tetris'];
+  const links = ['Notes', 'PalletGenerator', 'Blog'];
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
   const linkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const rootRef = useRef<HTMLDivElement | null>(null);
