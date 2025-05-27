@@ -67,20 +67,20 @@
 	--color-katanaGray: #717c7c;
 }
 
+@layer base {
+	body {
+		@apply text-oldWhite;
+	}
+}
+
 @layer components {
-	#utils-root {
-		@apply flex h-full flex-col;
+
+	/* blog */
+	.blog-post h1 {
+		@apply text-2xl;
 	}
 
-	#utils-root #utils {
-		@apply bg-sumiInk2 m-auto flex w-fit flex-col justify-center space-y-5 rounded-xl p-10 text-center;
-	}
-
-	.util {
-		@apply text-oldWhite bg-sumiInk3 h-fit w-full justify-center rounded-xl p-4 text-2xl;
-	}
-
-	.util:focus {
-		@apply bg-sumiInk6 scale-110;
+	.blog-post h2 {
+		@apply text-xl;
 	}
 }

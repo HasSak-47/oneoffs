@@ -53,14 +53,23 @@ function Options() {
       .trim();
 
   return (
-    <div id='utils-root' ref={rootRef} onKeyDown={handleKeyDown} tabIndex={0}>
+    <div
+      id='utils-root'
+      className='flex h-full flex-col'
+      ref={rootRef}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
       <Header name='Utils' />
-      <div id='utils'>
+      <div
+        id='utils'
+        className='bg-sumiInk2 m-auto flex w-fit flex-col justify-center space-y-5 rounded-xl p-10 text-center'
+      >
         {links.map((link, index) => (
           <Link
             key={link}
             id={link}
-            className='util'
+            className='text-oldWhite bg-sumiInk3 border-sumiInk5 hover:border-waveBlue1 h-fit w-full justify-center rounded-xl border p-4 text-2xl shadow-md transition-transform hover:scale-110'
             to={`/${link}`}
             ref={(el) => {
               linkRefs.current[index] = el;

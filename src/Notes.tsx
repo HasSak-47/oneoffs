@@ -282,7 +282,7 @@ export default function Notes() {
 
       {!showExplorer && (
         <button
-          className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-4 shadow-lg md:hidden'
+          className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg md:hidden'
           onClick={() => setShowExplorer((prev) => !prev)}
         >
           <Bars3Icon className='text-oldWhite w-3/4' />
@@ -322,7 +322,7 @@ export default function Notes() {
             {/* Textarea fills the rest */}
             <div className='flex-grow p-2'>
               <textarea
-                className='border-sumiInk5 bg-sumiInk3 text-oldWhite h-full w-full resize-none rounded-md border-4 p-4'
+                className='border-sumiInk5 bg-sumiInk3 text-oldWhite h-full w-full resize-none rounded-md border p-4'
                 value={text}
                 onChange={(e) => setText(e.target.value)}
               />
@@ -333,7 +333,7 @@ export default function Notes() {
         )}
 
         {/* panel for the explorer on !mobile */}
-        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-scroll rounded-2xl border-4 p-2 md:block'>
+        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-scroll rounded-2xl border p-2 md:block'>
           <TreeNode
             name='root'
             node={root}
@@ -347,7 +347,7 @@ export default function Notes() {
 
         {/* panel for the explorer on mobile */}
         {showExplorer && (
-          <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-scroll rounded-2xl border-4 p-2 md:hidden'>
+          <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-scroll rounded-2xl border p-2 md:hidden'>
             <button
               className='text-waveRed relative h-6 w-6'
               onClick={() => setShowExplorer((prev) => !prev)}
