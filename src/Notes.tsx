@@ -115,9 +115,11 @@ function TreeNode({
 
   if (typeof node === 'string') {
     return (
-      <div className='mt-1 ml-4 flex items-center space-x-2'>
-        <Bars3CenterLeftIcon className='size-4' />
-        <span>{name}</span>
+      <div className='flex items-center justify-between space-x-2'>
+        <div className='flex items-center space-x-2'>
+          <Bars3CenterLeftIcon className='size-4' />
+          <span>{name}</span>
+        </div>
         <button
           className='bg-waveRed hover:bg-waveAqua1 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
           onClick={() => onDelete(path)}
@@ -128,35 +130,41 @@ function TreeNode({
     );
   }
 
+  const [showAlert, setShowAlert] = useState(false);
+
   return (
     <div className='text-oldWhite mt-1 ml-2'>
-      <div className='flex items-center space-x-2'>
-        <button onClick={() => setOpen(!open)}>
-          {open ? (
-            <FolderOpenIcon className='size-4' />
-          ) : (
-            <FolderIcon className='size-4' />
-          )}
-        </button>
-        <span className='font-semibold'>{name}</span>
-        <button
-          className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
-          onClick={() => onAddFile(path)}
-        >
-          <DocumentPlusIcon className='text-sumiInk0 size-4' />
-        </button>
-        <button
-          className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
-          onClick={() => onAddFolder(path)}
-        >
-          <FolderPlusIcon className='text-sumiInk0 size-4' />
-        </button>
-        <button
-          className='bg-waveRed hover:bg-waveAqua1 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
-          onClick={() => onDelete(path)}
-        >
-          <TrashIcon className='text-sumiInk0 size-4' />
-        </button>
+      <div className='flex items-center justify-between space-x-2'>
+        <div className='flex items-center space-x-2'>
+          <button onClick={() => setOpen(!open)}>
+            {open ? (
+              <FolderOpenIcon className='size-4' />
+            ) : (
+              <FolderIcon className='size-4' />
+            )}
+          </button>
+          <span className='font-semibold'>{name}</span>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <button
+            className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
+            onClick={() => onAddFile(path)}
+          >
+            <DocumentPlusIcon className='text-sumiInk0 size-4' />
+          </button>
+          <button
+            className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
+            onClick={() => onAddFolder(path)}
+          >
+            <FolderPlusIcon className='text-sumiInk0 size-4' />
+          </button>
+          <button
+            className='bg-waveRed hover:bg-waveAqua1 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
+            onClick={() => onDelete(path)}
+          >
+            <TrashIcon className='text-sumiInk0 size-4' />
+          </button>
+        </div>
       </div>
       {open && (
         <div className='ml-4'>
@@ -234,10 +242,9 @@ export default function Notes() {
   };
 
   return (
-    <div className='p-4'>
+    <div className=''>
       <Header name='Notes' ret={true} />
-      <div></div>
-      <div>
+      <div className='w-1/4'>
         <TreeNode
           name='root'
           node={root}
