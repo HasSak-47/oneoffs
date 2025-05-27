@@ -107,7 +107,7 @@ export default function PalletGenerator() {
     setNumber(n);
   };
 
-  const MAX = 10;
+  const MAX = 5;
   const MIN = 2;
 
   const commit = () => {
