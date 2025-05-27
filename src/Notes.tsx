@@ -9,6 +9,7 @@ import {
   TrashIcon,
   Bars3Icon,
   XMarkIcon,
+  CheckIcon,
 } from '@heroicons/react/16/solid';
 
 class Folder {
@@ -65,6 +66,20 @@ class Folder {
     }
   }
 
+  set(path: string, data: string) {
+    const parts = path.replace(/^\/+|\/+$/g, '').split('/');
+    const fileName = parts.pop()!;
+    let current: Folder = this;
+
+    for (const part of parts) {
+      if (!(part in current.inner) || typeof current.inner[part] === 'string') {
+        current.inner[part] = new Folder();
+      }
+      current = current.inner[part] as Folder;
+    }
+
+    current.inner[fileName] = data;
+  }
   get(path: string): Folder | string | undefined {
     const parts = path.split('/');
     let current: Folder = this;
@@ -103,6 +118,7 @@ type TreeProps = {
   onAddFile: (path: string) => void;
   onAddFolder: (path: string) => void;
   onDelete: (path: string) => void;
+  onSelect: (path: string) => void;
 };
 
 function TreeNode({
@@ -112,6 +128,7 @@ function TreeNode({
   onAddFile,
   onAddFolder,
   onDelete,
+  onSelect,
 }: TreeProps) {
   const [open, setOpen] = useState(true);
 
@@ -119,7 +136,9 @@ function TreeNode({
     return (
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
-          <Bars3CenterLeftIcon className='size-4' />
+          <button onClick={(_) => onSelect(path)}>
+            <Bars3CenterLeftIcon className='size-4' />
+          </button>
           <span>{name}</span>
         </div>
         <button
@@ -189,6 +208,7 @@ function TreeNode({
                 onAddFile={onAddFile}
                 onAddFolder={onAddFolder}
                 onDelete={onDelete}
+                onSelect={onSelect}
               />
             ))}
         </div>
@@ -206,8 +226,6 @@ export default function Notes() {
       return folder;
     })()
   );
-
-  const [file, _] = useState(null);
 
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
@@ -243,6 +261,13 @@ export default function Notes() {
   };
 
   const [showExplorer, setShowExplorer] = useState(false);
+  const [text, setText] = useState('');
+
+  const [filePath, setFilePath] = useState<string | null>(null);
+  const handleSelection = (s: string) => {
+    setFilePath(s);
+    setText('');
+  };
 
   return (
     <div className='relative h-full'>
@@ -258,7 +283,30 @@ export default function Notes() {
       )}
 
       <div className='flex flex-row justify-between'>
-        {file !== null ? <div></div> : <div />}
+        {filePath !== null ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (filePath) {
+                root.set(filePath, text);
+              }
+            }}
+          >
+            <button
+              type='button'
+              className='text-waveRed relative h-6 w-6'
+              onClick={() => setFilePath(null)}
+            >
+              <XMarkIcon />
+            </button>
+            <button type='submit' className='text-waveAqua1 relative h-6 w-6'>
+              <CheckIcon />
+            </button>
+            <textarea value={text} onChange={(e) => setText(e.target.value)} />
+          </form>
+        ) : (
+          <div />
+        )}
 
         <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden h-200 w-1/4 max-w-[360px] min-w-[220px] overflow-scroll rounded-2xl border-4 p-2 md:block'>
           <TreeNode
@@ -268,6 +316,7 @@ export default function Notes() {
             onAddFile={handleAddFile}
             onAddFolder={handleAddFolder}
             onDelete={handleDelete}
+            onSelect={handleSelection}
           />
         </div>
 
@@ -286,6 +335,7 @@ export default function Notes() {
               onAddFile={handleAddFile}
               onAddFolder={handleAddFolder}
               onDelete={handleDelete}
+              onSelect={handleSelection}
             />
           </div>
         )}
