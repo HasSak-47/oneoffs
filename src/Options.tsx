@@ -60,33 +60,46 @@ function Options() {
 			onKeyDown={handleKeyDown}
 			tabIndex={0}
 		>
-			<Header name='Utils' />
-			<div
-				id='utils'
-				className='bg-sumiInk2 m-auto flex w-fit flex-col justify-center space-y-5 rounded-xl p-10 text-center'
-			>
-				{links.map((link, index) => (
-					<Link
-						key={link}
-						id={link}
-						className='text-oldWhite bg-sumiInk3 border-sumiInk5 hover:border-waveBlue1 h-fit w-full justify-center rounded-xl border p-4 text-2xl shadow-md transition-transform hover:scale-110'
-						to={`/${link}`}
-						ref={(el) => {
-							linkRefs.current[index] = el;
-						}}
-						tabIndex={-1}
-						onMouseOver={() => setFocusedIndex(index)}
-						onMouseLeave={() => {
-							if (focusedIndex !== null) {
-								linkRefs.current[focusedIndex]?.blur();
-							}
-							setFocusedIndex(null);
-						}}
-					>
-						{formatLabel(link)}
-					</Link>
-				))}
+			<div className='mx-auto w-full max-w-2xl px-4 py-8'>
+				<div className='mb-8 text-center'>
+					<h1 className='text-lightBlue mb-2 text-4xl font-bold'>
+						Developer Utilities
+					</h1>
+					<p className='text-oldWhite text-lg opacity-80'>
+						Quick access to your favorite tools
+					</p>
+				</div>
+				<div
+					id='utils'
+					className='bg-sumiInk2 flex flex-col space-y-4 rounded-xl p-6'
+				>
+					{links.map((link, index) => (
+						<Link
+							key={link}
+							id={link}
+							className='text-oldWhite bg-sumiInk3 border-sumiInk5 hover:border-waveBlue1 group flex h-fit w-full items-center justify-center gap-3 rounded-lg border p-4 text-xl shadow-md transition-all hover:scale-[1.02] hover:shadow-lg'
+							to={`/${link}`}
+							ref={(el) => {
+								linkRefs.current[index] = el;
+							}}
+							tabIndex={-1}
+							onMouseOver={() => setFocusedIndex(index)}
+							onMouseLeave={() => {
+								if (focusedIndex !== null) {
+									linkRefs.current[focusedIndex]?.blur();
+								}
+								setFocusedIndex(null);
+							}}
+						>
+							{formatLabel(link)}
+						</Link>
+					))}
+				</div>
 			</div>
+
+			<footer className='text-oldWhite mt-auto hidden py-4 text-center text-sm opacity-60 md:block'>
+				<p>Use keyboard or vim motions arrows to navigate. Enter to select</p>
+			</footer>
 		</div>
 	);
 }
