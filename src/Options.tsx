@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link } from 'react-router-dom';
-import Header from './Header';
 
 function Options() {
 	const links = ['Notes', 'PalletGenerator', 'Blog'];
