@@ -43,7 +43,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
     return (
       <div className='flex items-center gap-2'>
         <input
-          className='min-w-0 flex-1 appearance-none rounded-xl hover:scale-110'
+          className='hover:scae-105 min-w-0 flex-1 appearance-none rounded-xl'
           type='range'
           max='1000'
           min='0'
@@ -75,7 +75,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
   return (
     <div className='max-w-[200px] md:max-w-[400px]'>
       <button
-        className='aspect-square w-full rounded-xl hover:scale-110 hover:cursor-copy'
+        className='aspect-square w-full rounded-xl transition-transform hover:scale-105 hover:cursor-copy'
         style={{ backgroundImage: fmt(L, c, h, L, c, h) }}
         onClick={(_) => {
           const rgb = oklab_to_rgb(oklch_to_oklab({ L, c, h }));
@@ -131,19 +131,42 @@ export default function PalletGenerator() {
       color.c,
       color.h
     );
+
+    const complement = {
+      L: color.L < 0.5 ? 0.95 : 0.05,
+      c: Math.min(color.c, 0.1),
+      h: (color.h + 0.5) % 1,
+    };
+
+    const rgb = rgb_to_hex(
+      oklab_to_rgb(
+        oklch_to_oklab({ L: color.L, c: color.c, h: color.h * Math.PI })
+      )
+    );
+
+    const complement_rgb = rgb_to_hex(
+      oklab_to_rgb(
+        oklch_to_oklab({
+          L: complement.L,
+          c: complement.c,
+          h: complement.h * Math.PI,
+        })
+      )
+    );
+
     return (
       <button
-        className='aspect-square w-[100px] rounded-xl hover:scale-110 hover:cursor-copy md:w-[150px]'
+        className='aspect-square w-[100px] rounded-xl transition-transform hover:scale-105 hover:cursor-copy md:w-[150px]'
         style={{
           backgroundImage: string_color,
+          color: complement_rgb,
         }}
         onClick={(_) => {
-          const rgb = oklab_to_rgb(
-            oklch_to_oklab({ L: color.L, c: color.c, h: color.h * Math.PI })
-          );
-          navigator.clipboard.writeText(rgb_to_hex(rgb));
+          navigator.clipboard.writeText(rgb);
         }}
-      />
+      >
+        {rgb}
+      </button>
     );
   });
 
