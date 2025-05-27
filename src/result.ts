@@ -40,7 +40,7 @@ export class Result<T, E = Error> {
   }
 
   ok() {
-    return this.inner.error !== null;
+    return this.inner.error === null;
   }
 }
 
