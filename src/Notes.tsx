@@ -232,6 +232,12 @@ export default function Notes() {
     })()
   );
 
+  const [showPrompt, setShowPrompt] = useState<null | 'file' | 'folder'>(null);
+  const [promptPath, setPromptPath] = useState('');
+  const [promptInput, setPromptInput] = useState('');
+
+  const [deletePath, setDeletePath] = useState<string | null>(null);
+
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
     fn(newRoot);
@@ -240,28 +246,19 @@ export default function Notes() {
   };
 
   const handleAddFile = (path: string) => {
-    const name = prompt('Enter new file name:');
-    if (!name) return;
-    update((folder) => {
-      folder.add_file(`${path}/${name}`, '');
-    });
+    setPromptPath(path);
+    setPromptInput('');
+    setShowPrompt('file');
   };
 
   const handleAddFolder = (path: string) => {
-    const name = prompt('Enter new folder name:');
-    if (!name) return;
-    update((folder) => {
-      let p = `${path}/${name}`;
-
-      folder.add_folder(p);
-    });
+    setPromptPath(path);
+    setPromptInput('');
+    setShowPrompt('folder');
   };
 
   const handleDelete = (path: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
-    update((folder: Folder) => {
-      folder.delete(path);
-    });
+    setDeletePath(path);
   };
 
   const [showExplorer, setShowExplorer] = useState(false);
@@ -366,6 +363,80 @@ export default function Notes() {
           </div>
         )}
       </div>
+      {/* Prompts */}
+      {showPrompt && (
+        <div className='bg-opacity-20 fixed inset-0 z-50 flex items-center justify-center'>
+          <div className='bg-sumiInk3 border-sumiInk5 text-oldWhite w-80 rounded-xl border p-4'>
+            <h2 className='mb-2 text-lg font-semibold'>
+              {showPrompt === 'file' ? 'New File' : 'New Folder'} Name:
+            </h2>
+            <input
+              autoFocus
+              className='border-sumiInk5 bg-sumiInk0 text-fujiWhite w-full rounded-md border p-2 hover:cursor-pointer'
+              value={promptInput}
+              onChange={(e) => setPromptInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && promptInput.trim()) {
+                  const fullPath = `${promptPath}/${promptInput.trim()}`;
+                  update((folder) => {
+                    if (showPrompt === 'file') folder.add_file(fullPath, '');
+                    else folder.add_folder(fullPath);
+                  });
+                  setShowPrompt(null);
+                }
+              }}
+            />
+            <div className='mt-4 flex justify-end gap-2'>
+              <button
+                onClick={() => setShowPrompt(null)}
+                className='text-waveRed text-sm hover:cursor-pointer'
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (!promptInput.trim()) return;
+                  const fullPath = `${promptPath}/${promptInput.trim()}`;
+                  update((folder) => {
+                    if (showPrompt === 'file') folder.add_file(fullPath, '');
+                    else folder.add_folder(fullPath);
+                  });
+                  setShowPrompt(null);
+                }}
+                className='bg-waveAqua2 text-sumiInk0 rounded px-3 py-1 text-sm hover:cursor-pointer'
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation */}
+      {deletePath && (
+        <div className='bg-opacity-60 fixed inset-0 z-50 flex items-center justify-center'>
+          <div className='bg-sumiInk3 border-sumiInk5 text-oldWhite w-80 rounded-xl border p-4'>
+            <h2 className='mb-4 text-lg font-semibold'>Delete this item?</h2>
+            <div className='flex justify-end gap-2'>
+              <button
+                onClick={() => setDeletePath(null)}
+                className='text-waveAqua1 text-sm hover:cursor-pointer'
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  update((folder) => folder.delete(deletePath));
+                  setDeletePath(null);
+                }}
+                className='bg-waveRed text-sumiInk0 hoer:cursor-pointer rounded px-3 py-1 text-sm'
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
