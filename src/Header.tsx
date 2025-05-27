@@ -6,6 +6,9 @@ type HeaderProp = {
   ret?: any;
 };
 
+/*
+ * basic dumb header that will be used everywhere!
+ */
 export default function Header({ name, ret }: HeaderProp) {
   return (
     <header className='text-fujiWhite bg-sumiInk4 flex h-fit justify-between rounded-b-2xl p-3 pr-5 pl-5 text-3xl'>

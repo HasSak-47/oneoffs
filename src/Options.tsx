@@ -33,6 +33,7 @@ function Options() {
       };
     };
 
+    // arrows or vim motions babyyy
     if (e.key === 'ArrowDown' || e.key === 'j') {
       e.preventDefault();
       setFocusedIndex(move(1, 0));
