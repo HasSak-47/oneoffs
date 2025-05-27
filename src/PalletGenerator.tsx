@@ -1,5 +1,5 @@
 import { ChangeEventHandler, useState } from 'react';
-import { oklab_to_rgb, oklch_to_oklab, rgb_to_hex } from './color';
+import { color_step, oklab_to_rgb, oklch_to_oklab, rgb_to_hex } from './color';
 import Header from './Header';
 
 interface ColorProps {
@@ -11,19 +11,19 @@ interface ColorProps {
   seth: (v: number) => void;
 }
 
-// @ts-ignore
-function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
-  const fmt = (
-    beg_l: number,
-    beg_c: number,
-    beg_h: number,
-    end_l: number,
-    end_c: number,
-    end_h: number
-  ) => {
-    return `linear-gradient(to right, oklch(${beg_l} ${beg_c} ${beg_h * 360}deg), oklch(${end_l} ${end_c} ${end_h * 360}deg) )`;
-  };
+function fmt(
+  beg_l: number,
+  beg_c: number,
+  beg_h: number,
+  end_l: number,
+  end_c: number,
+  end_h: number
+) {
+  const col = `linear-gradient(to right, oklch(${beg_l} ${beg_c} ${beg_h * 360}deg), oklch(${end_l} ${end_c} ${end_h * 360}deg) )`;
+  return col;
+}
 
+function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
   const gradient_maker = () => {
     let data = '';
     for (let i = 0; i < 16; ++i) {
@@ -43,7 +43,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
     return (
       <div className='flex items-center gap-2'>
         <input
-          className='min-w-0 flex-1 appearance-none rounded-xl'
+          className='min-w-0 flex-1 appearance-none rounded-xl hover:scale-110'
           type='range'
           max='1000'
           min='0'
@@ -90,13 +90,14 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
     </div>
   );
 }
+
 export default function PalletGenerator() {
   const [startL, setStartL] = useState(0.6);
-  const [startc, setStartc] = useState(0.07);
-  const [starth, setStarth] = useState(0.3);
+  const [startc, setStartc] = useState(0.3);
+  const [starth, setStarth] = useState(0.07);
   const [endL, setEndL] = useState(0.6);
-  const [endc, setEndc] = useState(0.7);
-  const [endh, setEndh] = useState(0.3);
+  const [endc, setEndc] = useState(0.3);
+  const [endh, setEndh] = useState(0.7);
 
   const [number, setNumber] = useState(2);
   const [numberInput, setNumberInput] = useState('2');
@@ -106,40 +107,76 @@ export default function PalletGenerator() {
     setNumber(n);
   };
 
+  const MAX = 10;
+  const MIN = 2;
+
   const commit = () => {
-    const parsed = parseInt(numberInput, 10);
-    const clamped = isNaN(parsed) ? 2 : Math.min(Math.max(parsed, 2), 10);
+    const parsed = parseInt(numberInput, MAX);
+    const clamped = isNaN(parsed) ? MIN : Math.min(Math.max(parsed, MIN), MAX);
     setGlobalNumber(clamped);
   };
+
+  let steps = color_step(
+    { L: startL, c: startc, h: starth },
+    { L: endL, c: endc, h: endh },
+    number
+  );
+
+  let output = steps.map((color) => {
+    let string_color = fmt(
+      color.L,
+      color.c,
+      color.h,
+      color.L,
+      color.c,
+      color.h
+    );
+    return (
+      <button
+        className='aspect-square w-[100px] rounded-xl hover:scale-110 hover:cursor-copy md:w-[150px]'
+        style={{
+          backgroundImage: string_color,
+        }}
+        onClick={(_) => {
+          const rgb = oklab_to_rgb(
+            oklch_to_oklab({ L: color.L, c: color.c, h: color.h * Math.PI })
+          );
+          navigator.clipboard.writeText(rgb_to_hex(rgb));
+        }}
+      />
+    );
+  });
 
   return (
     <div id='pallet-generator' className='h-full w-full'>
       <Header name='Pallet Generator' ret={true} />
+      {/* color selector */}
       <div className='m-auto mt-10 flex w-fit flex-col space-y-4 space-x-4 md:flex-row'>
         <ColorPicker
           L={startL}
-          c={starth}
-          h={startc}
+          c={startc}
+          h={starth}
           setl={setStartL}
-          setc={setStarth}
-          seth={setStartc}
+          setc={setStartc}
+          seth={setStarth}
         />
 
         <ColorPicker
           L={endL}
-          c={endh}
-          h={endc}
+          c={endc}
+          h={endh}
           setl={setEndL}
-          setc={setEndh}
-          seth={setEndc}
+          setc={setEndc}
+          seth={setEndh}
         />
       </div>
+      {/* number selector */}
       <div className='m-auto mt-6 w-fit'>
         <div className='bg-sumiInk4 flex w-fit items-center gap-2 rounded-xl p-2 text-white'>
           <button
             className='rounded px-3 text-lg font-bold hover:cursor-pointer'
             onClick={(_) => {
-              setGlobalNumber(Math.max(number - 1, 2));
+              setGlobalNumber(Math.max(number - 1, MIN));
             }}
           >
             –
@@ -148,7 +185,7 @@ export default function PalletGenerator() {
             className='w-16 [appearance:textfield] bg-transparent text-center text-lg outline-none'
             value={numberInput}
             onChange={(e) => {
-              const val = parseInt(e.target.value, 10);
+              const val = parseInt(e.target.value, MAX);
               if (!isNaN(val)) {
                 setNumberInput(e.target.value);
               }
@@ -161,12 +198,16 @@ export default function PalletGenerator() {
           <button
             className='rounded px-3 text-lg font-bold hover:cursor-pointer'
             onClick={(_) => {
-              setGlobalNumber(Math.min(number + 1, 10));
+              setGlobalNumber(Math.min(number + 1, MAX));
             }}
           >
             +
           </button>
         </div>
+      </div>
+      {/* output */}
+      <div className='mx-auto mt-5 flex min-w-[200px] flex-wrap justify-center gap-4 md:w-3/4'>
+        {output}
       </div>
     </div>
   );
