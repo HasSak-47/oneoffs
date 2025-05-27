@@ -22,6 +22,7 @@ export default function Header({ name, ret, extra }: HeaderProp) {
           <Link
             to='/'
             className='flex items-center transition-transform hover:scale-110'
+            aria-label='Home'
           >
             <HomeIcon className='text-waveAqua2 h-8 w-8' />
           </Link>

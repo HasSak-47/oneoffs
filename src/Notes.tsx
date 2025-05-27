@@ -142,7 +142,7 @@ function TreeNode({
     return (
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
-          <button onClick={(_) => onSelect(path)}>
+          <button onClick={(_) => onSelect(path)} aria-label='Open File'>
             <Bars3CenterLeftIcon className='size-4' />
           </button>
           <span>{name}</span>
@@ -150,6 +150,7 @@ function TreeNode({
         <button
           className='bg-waveRed hover:bg-waveAqua1 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
           onClick={() => onDelete(path)}
+          aria-label='Delete File'
         >
           <TrashIcon className='text-sumiInk0 size-4' />
         </button>
@@ -162,7 +163,7 @@ function TreeNode({
     <div className='text-oldWhite'>
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
-          <button onClick={() => setOpen(!open)}>
+          <button onClick={() => setOpen(!open)} aria-label='Toggle folder'>
             {open ? (
               <FolderOpenIcon className='size-4' />
             ) : (
@@ -175,18 +176,21 @@ function TreeNode({
           <button
             className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
             onClick={() => onAddFile(path)}
+            aria-label='Create File'
           >
             <DocumentPlusIcon className='text-sumiInk0 size-4' />
           </button>
           <button
             className='bg-sakuraPink hover:bg-waveAqua2 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
             onClick={() => onAddFolder(path)}
+            aria-label='Create Folder'
           >
             <FolderPlusIcon className='text-sumiInk0 size-4' />
           </button>
           <button
             className='bg-waveRed hover:bg-waveAqua1 rounded px-2 py-0.5 text-sm transition-all hover:scale-110 hover:cursor-pointer'
             onClick={() => onDelete(path)}
+            aria-label='Delete Folder'
           >
             <TrashIcon className='text-sumiInk0 size-4' />
           </button>
@@ -394,6 +398,7 @@ export default function Notes() {
               <button
                 onClick={() => setShowPrompt(null)}
                 className='text-waveRed text-sm hover:cursor-pointer'
+                aria-label='Cancel Creation'
               >
                 Cancel
               </button>
@@ -407,6 +412,7 @@ export default function Notes() {
                   });
                   setShowPrompt(null);
                 }}
+                aria-label='Create'
                 className='bg-waveAqua2 text-sumiInk0 rounded px-3 py-1 text-sm hover:cursor-pointer'
               >
                 Create

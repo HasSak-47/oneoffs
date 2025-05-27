@@ -44,6 +44,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
       <div className='flex items-center gap-2'>
         <input
           className='hover:scae-105 min-w-0 flex-1 appearance-none rounded-xl'
+          aria-label='Color Slider'
           type='range'
           max='1000'
           min='0'
@@ -81,6 +82,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
           const rgb = oklab_to_rgb(oklch_to_oklab({ L, c, h }));
           navigator.clipboard.writeText(rgb_to_hex(rgb));
         }}
+        aria-label='Copy Edge Color'
       />
       <div className='w-full'>
         {OkL}
@@ -161,6 +163,7 @@ export default function PalletGenerator() {
           backgroundImage: string_color,
           color: complement_rgb,
         }}
+        aria-label='Copy Generated Color'
         onClick={(_) => {
           navigator.clipboard.writeText(rgb);
         }}
@@ -198,6 +201,7 @@ export default function PalletGenerator() {
         <div className='bg-sumiInk4 flex w-fit items-center gap-2 rounded-xl p-2 text-white'>
           <button
             className='rounded px-3 text-lg font-bold hover:cursor-pointer'
+            aria-label='Increase number of colors'
             onClick={(_) => {
               setGlobalNumber(Math.max(number - 1, MIN));
             }}
@@ -206,6 +210,7 @@ export default function PalletGenerator() {
           </button>
           <input
             className='w-16 [appearance:textfield] bg-transparent text-center text-lg outline-none'
+            aria-label='Number of Colors'
             value={numberInput}
             onChange={(e) => {
               const val = parseInt(e.target.value, MAX);
@@ -223,6 +228,7 @@ export default function PalletGenerator() {
             onClick={(_) => {
               setGlobalNumber(Math.min(number + 1, MAX));
             }}
+            aria-label='Decrease number of colors'
           >
             +
           </button>
