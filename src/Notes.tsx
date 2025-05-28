@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './Header';
 import {
   FolderIcon,
@@ -11,6 +11,7 @@ import {
   XMarkIcon,
   CheckIcon,
 } from '@heroicons/react/16/solid';
+import { atry_catch, Result, try_catch } from './result';
 
 class Folder {
   inner: { [key: string]: Folder | string };
@@ -114,6 +115,26 @@ class Folder {
     }
     return copy;
   }
+
+  static fromJSON(json: any): Folder {
+    const folder = new Folder();
+    for (const [key, value] of Object.entries(json)) {
+      if (typeof value === 'string') {
+        folder.inner[key] = value;
+      } else {
+        folder.inner[key] = Folder.fromJSON(value);
+      }
+    }
+    return folder;
+  }
+
+  toJSON(): any {
+    const obj: any = {};
+    for (const [key, value] of Object.entries(this.inner)) {
+      obj[key] = typeof value === 'string' ? value : value.toJSON();
+    }
+    return obj;
+  }
 }
 
 type TreeProps = {
@@ -142,7 +163,11 @@ function TreeNode({
     return (
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
-          <button onClick={(_) => onSelect(path)} aria-label='Open File'>
+          <button
+            onClick={(_) => onSelect(path)}
+            aria-label='Open File'
+            className='hover:cursor-pointer'
+          >
             <Bars3CenterLeftIcon className='size-4' />
           </button>
           <span>{name}</span>
@@ -163,7 +188,11 @@ function TreeNode({
     <div className='text-oldWhite'>
       <div className='flex items-center justify-between space-x-2'>
         <div className='flex items-center space-x-2'>
-          <button onClick={() => setOpen(!open)} aria-label='Toggle folder'>
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label='Toggle folder'
+            className='hover:cursor-pointer'
+          >
             {open ? (
               <FolderOpenIcon className='size-4' />
             ) : (
@@ -226,15 +255,55 @@ function TreeNode({
   );
 }
 
+function setCookie(name: string, value: string, days = 365) {
+  const expires = new Date(Date.now() + days * 86400000).toUTCString();
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
+
 export default function Notes() {
-  const [root, setRoot] = useState(
-    (() => {
-      let folder = new Folder();
-      folder.add_file('readme', 'Welcome');
-      folder.add_file('intro', 'Intro content');
-      return folder;
-    })()
-  );
+  const [root, setRoot] = useState<Folder>(() => {
+    const cookie = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('notesData='))
+      ?.split('=')[1];
+
+    if (cookie) {
+      try {
+        return Folder.fromJSON(JSON.parse(decodeURIComponent(cookie)));
+      } catch (e) {
+        console.error('Failed to parse cookie data:', e);
+      }
+    }
+
+    let folder = new Folder();
+
+    folder.add_file('readme', '');
+    folder.add_file('intro', '');
+    async function f(name: string) {
+      let result: Result<Response, Error> = await atry_catch(
+        fetch,
+        `/oneoffs/assets/notes/${name}.txt`
+      );
+      if (!result.ok()) {
+        console.log('result not ok', result.unwrap_err());
+        return;
+      }
+
+      let response = result.unwrap()!;
+      if (!response.ok) {
+        console.log('respone not ok');
+        return;
+      }
+
+      folder.set(name, await response.text());
+    }
+    f('intro');
+    f('readme');
+
+    return folder;
+  });
+
+  useEffect(() => {}, []);
 
   const [showPrompt, setShowPrompt] = useState<null | 'file' | 'folder'>(null);
   const [promptPath, setPromptPath] = useState('');
@@ -245,8 +314,8 @@ export default function Notes() {
   const update = (fn: (folder: Folder) => void) => {
     const newRoot = root.clone();
     fn(newRoot);
-
     setRoot(newRoot);
+    setCookie('notesData', JSON.stringify(newRoot.toJSON()));
   };
 
   const handleAddFile = (path: string) => {
@@ -283,7 +352,7 @@ export default function Notes() {
 
       {!showExplorer && (
         <button
-          className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg md:hidden'
+          className='bg-sumiInk3 border-sumiInk5 fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 shadow-lg hover:cursor-pointer md:hidden'
           aria-label='Toggle folder'
           onClick={() => setShowExplorer((prev) => !prev)}
         >
@@ -299,6 +368,8 @@ export default function Notes() {
               e.preventDefault();
               if (filePath !== null) {
                 root.set(filePath, text);
+                setRoot(root.clone());
+                setCookie('notesData', JSON.stringify(root.toJSON()));
               }
             }}
             className='flex h-full flex-1 flex-col'

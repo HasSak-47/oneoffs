@@ -54,3 +54,15 @@ export function try_catch<T, F extends (...params: any[]) => T, E = Error>(
     return Result.err(error as E);
   }
 }
+
+export async function atry_catch<
+  T,
+  F extends (...params: any[]) => Promise<T>,
+  E = Error,
+>(f: F, ...args: Parameters<F>): Promise<Result<T, E>> {
+  try {
+    return Result.ok(await f(...args));
+  } catch (error) {
+    return Result.err(error as E);
+  }
+}
