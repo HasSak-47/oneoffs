@@ -408,7 +408,7 @@ export default function Notes() {
         )}
 
         {/* panel for the explorer on !mobile */}
-        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-scroll rounded-2xl border p-2 md:block'>
+        <div className='bg-sumiInk3 border-sumiInk5 m-1 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-auto rounded-2xl border p-2 md:block'>
           <TreeNode
             name='root'
             node={root}
@@ -422,7 +422,7 @@ export default function Notes() {
 
         {/* panel for the explorer on mobile */}
         {showExplorer && (
-          <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-scroll rounded-2xl border p-2 md:hidden'>
+          <div className='bg-sumiInk3 border-sumiInk5 fixed right-4 bottom-20 left-4 z-40 max-h-[70%] overflow-auto rounded-2xl border p-2 md:hidden'>
             <button
               className='text-waveRed relative h-6 w-6'
               onClick={() => setShowExplorer((prev) => !prev)}
