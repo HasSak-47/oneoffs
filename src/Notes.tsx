@@ -11,7 +11,7 @@ import {
   XMarkIcon,
   CheckIcon,
 } from '@heroicons/react/16/solid';
-import { atry_catch, Result, try_catch } from './result';
+import { atry_catch, Result } from './result';
 
 class Folder {
   inner: { [key: string]: Folder | string };
