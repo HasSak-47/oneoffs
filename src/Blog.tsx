@@ -26,7 +26,7 @@ export default function Blog() {
   );
 }
 
-export const BlogHome = () => {
+export function BlogHome() {
   const posts: BlogPost[] = [
     {
       slug: 'blog-1',
@@ -62,9 +62,9 @@ export const BlogHome = () => {
       </ul>
     </div>
   );
-};
+}
 
-export const BlogPost = () => {
+export function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [markdown, setMarkdown] = useState<string>('');
@@ -99,6 +99,7 @@ export const BlogPost = () => {
   return (
     <article className='blog-post'>
       <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
+      <div className='h-80' />
     </article>
   );
-};
+}
