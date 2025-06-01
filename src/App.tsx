@@ -4,6 +4,7 @@ import Tetris from './Tetris';
 import PalletGenerator from './PalletGenerator';
 import Options from './Options';
 import Blog, { BlogHome, BlogPost } from './Blog';
+import Crypto from './Crypto';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         </Route>
         <Route path='/PalletGenerator' element={<PalletGenerator />} />
         <Route path='/notes' element={<Notes />} />
+        <Route path='/crypto' element={<Crypto />} />
       </Routes>
     </BrowserRouter>
   );
