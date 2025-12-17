@@ -4,9 +4,9 @@ import './index.css';
 import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <div className='h-screen w-screen'>
-      <App />
-    </div>
-  </StrictMode>
+	<StrictMode>
+		<div className='h-screen w-screen'>
+			<App />
+		</div>
+	</StrictMode>
 );

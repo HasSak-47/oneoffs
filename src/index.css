@@ -136,4 +136,51 @@
 
   .blog-post td {
     @apply text-fujiWhite border-sumiInk4 border-b px-4 py-2;
-  
+  }
+}
+
+@layer components {
+  .notes-editor {
+    background-color: var(--color-sumiInk2);
+    color: var(--color-fujiWhite);
+  }
+
+  .notes-editor .ace_scroller {
+    background-color: var(--color-sumiInk2);
+  }
+
+  .notes-editor .ace_gutter {
+    background-color: var(--color-sumiInk3);
+    border-right: 1px solid var(--color-sumiInk4);
+    color: var(--color-fujiGray);
+  }
+
+  .notes-editor .ace_gutter-active-line {
+    background-color: var(--color-sumiInk4);
+  }
+
+  .notes-editor .ace_print-margin {
+    background-color: var(--color-sumiInk4);
+  }
+
+  .notes-editor .ace_marker-layer .ace_active-line {
+    background-color: rgba(34, 50, 73, 0.45);
+  }
+
+  .notes-editor .ace_marker-layer .ace_selection {
+    background-color: rgba(122, 168, 159, 0.35);
+  }
+
+  .notes-editor .ace_marker-layer .ace_selected-word {
+    background-color: rgba(122, 168, 159, 0.2);
+    border: 1px solid rgba(122, 168, 159, 0.5);
+  }
+
+  .notes-editor .ace_cursor {
+    color: var(--color-lightBlue);
+  }
+
+  .notes-editor .ace_invisible {
+    color: var(--color-sumiInk4);
+  }
+}
