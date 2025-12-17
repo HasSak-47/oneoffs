@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@theme {
+	--font-mono: 'Fira Code', monospace;
+	/* Bg Shades */
+	--color-sumiInk0: #16161d;
+	--color-sumiInk1: #181820;
+	--color-sumiInk2: #1a1a22;
+	--color-sumiInk3: #1f1f28;
+	--color-sumiInk4: #2a2a37;
+	--color-sumiInk5: #363646;
+	/*fg */
+	--color-sumiInk6: #54546d;
+
+	/* Popup and Floats */
+	--color-waveBlue1: #223249;
+	--color-waveBlue2: #2d4f67;
+
+	/* Diff and Git */
+	--color-winterGreen: #2b3328;
+	--color-winterYellow: #49443c;
+	--color-winterRed: #43242b;
+	--color-winterBlue: #252535;
+	--color-autumnGreen: #76946a;
+	--color-autumnRed: #c34043;
+	--color-autumnYellow: #dca561;
+
+	/* Diag */
+	--color-samuraiRed: #e82424;
+	--color-roninYellow: #ff9e3b;
+	--color-waveAqua1: #6a9589;
+	--color-dragonBlue: #658594;
+
+	/* Fg and Comments */
+	--color-oldWhite: #c8c093;
+	--color-fujiWhite: #dcd7ba;
+	--color-fujiGray: #727169;
+
+	--color-oniViolet: #957fb8;
+	--color-oniViolet2: #b8b4d0;
+	--color-crystalBlue: #7e9cd8;
+	--color-springViolet1: #938aa9;
+	--color-springViolet2: #9cabca;
+	--color-springBlue: #7fb4ca;
+	--color-lightBlue: #a3d4d5;
+	/* unused yet */
+	--color-waveAqua2: #7aa89f;
+	/* improve lightness: desaturated greenish Aqua */
+
+	/* waveAqua2  = #68AD99, */
+	/* waveAqua4  = #7AA880, */
+	/* waveAqua5  = #6CAF95, */
+	/* waveAqua3  = #68AD99, */
+
+	--color-springGreen: #98bb6c;
+	--color-boatYellow1: #938056;
+	--color-boatYellow2: #c0a36e;
+	--color-carpYellow: #e6c384;
+
+	--color-sakuraPink: #d27e99;
+	--color-waveRed: #e46876;
+	--color-peachRed: #ff5d62;
+	--color-surimiOrange: #ffa066;
+	--color-katanaGray: #717c7c;
+}
+
+@layer base {
+
+	html,
+	body {
+		@apply text-white;
+	}
+}
+
+@layer components {
+	.blog-post {
+		@apply text-fujiWhite mx-auto max-w-prose space-y-6 px-4 text-justify text-base leading-relaxed;
+	}
+
+	.blog-post h1 {
+		@apply text-oldWhite mt-8 mb-4 text-4xl font-bold;
+	}
+
+	.blog-post h2 {
+		@apply text-oldWhite mt-6 mb-3 text-3xl font-semibold;
+	}
+
+	.blog-post h3 {
+		@apply text-oldWhite mt-5 mb-2 text-2xl font-semibold;
+	}
+
+	.blog-post p {
+		@apply text-fujiWhite mt-4 text-base;
+	}
+
+	.blog-post ul,
+	.blog-post ol {
+		@apply mt-4 list-inside list-disc space-y-2 pl-4;
+	}
+
+	.blog-post li {
+		@apply text-fujiWhite;
+	}
+
+	.blog-post blockquote {
+		@apply border-waveBlue1 text-fujiWhite bg-sumiInk2 rounded-md border-l-4 px-4 py-3 pl-4 italic;
+	}
+
+	.blog-post code {
+		@apply bg-sumiInk1 text-waveAqua2 rounded px-1 py-0.5 font-mono text-sm;
+	}
+
+	.blog-post pre {
+		@apply bg-sumiInk2 mt-4 overflow-x-auto rounded-md p-4 text-sm;
+	}
+
+	.blog-post pre code {
+		@apply text-waveAqua2 font-mono;
+	}
+
+	.blog-post a {
+		@apply text-fujiGray hover:text-waveAqua2 underline underline-offset-2 transition-colors;
+	}
+
+	.blog-post img {
+		@apply mx-auto my-6 max-w-full rounded-xl shadow-lg;
+	}
+
+	.blog-post table {
+		@apply my-6 w-full border-collapse;
+	}
+
+	.blog-post th {
+		@apply text-oldWhite border-sumiInk4 border-b px-4 py-2 text-left font-semibold;
+	}
+
+	.blog-post td {
+		@apply text-fujiWhite border-sumiInk4 border-b px-4 py-2;
+	}
+}

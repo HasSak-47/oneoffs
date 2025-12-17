@@ -1,0 +1,20 @@
+Getting Started with Notes
+
+1. Creating Files/Folders:
+   - Click the "+" icons next to folders to create new items
+   - Give your file/folder a name and press Enter
+
+2. Editing Notes:
+   - Click on any file to open it in the editor
+   - Make your changes - they save automatically
+   - Click the checkmark to manually save
+
+3. Organizing:
+   - Create nested folders for better organization
+   - Files and folders can be deleted when no longer needed
+
+4. Mobile Use:
+   - Tap the menu icon to show/hide the file explorer
+   - The editor automatically adjusts to your screen size
+
+Your notes are private and only stored in your browser. Enjoy!

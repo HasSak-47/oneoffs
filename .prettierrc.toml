@@ -1,0 +1,9 @@
+singleQuote = true
+jsxSingleQuote = true
+trailingComma = "es5"
+tabWidth = 2
+semi = true
+useTabs = false
+
+plugins = ['prettier-plugin-tailwindcss']
+
