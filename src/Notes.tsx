@@ -171,11 +171,10 @@ function TreeNode({
 		const isActive = activePath === path;
 		return (
 			<div
-				className={`group flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm transition-colors ${
-					isActive
+				className={`group flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm transition-colors ${isActive
 						? 'bg-waveBlue1 text-fujiWhite border-waveBlue2 border'
-						: 'text-oldWhite border border-transparent hover:bg-sumiInk4'
-				}`}
+						: 'text-oldWhite hover:bg-sumiInk4 border border-transparent'
+					}`}
 			>
 				<div className='flex min-w-0 items-center gap-2'>
 					<button
@@ -201,7 +200,7 @@ function TreeNode({
 	/* render folder */
 	return (
 		<div className='text-oldWhite'>
-			<div className='flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm hover:bg-sumiInk4'>
+			<div className='hover:bg-sumiInk4 flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm'>
 				<div className='flex min-w-0 items-center gap-2'>
 					<button
 						onClick={() => setOpen(!open)}
@@ -214,7 +213,7 @@ function TreeNode({
 							<FolderIcon className='size-4' />
 						)}
 					</button>
-					<span className='font-semibold text-fujiWhite'>{name}</span>
+					<span className='text-fujiWhite font-semibold'>{name}</span>
 				</div>
 				<div className='flex items-center gap-2'>
 					<button
@@ -404,7 +403,7 @@ export default function Notes() {
 	};
 
 	return (
-		<div className='relative flex h-full flex-col bg-sumiInk1 text-fujiWhite'>
+		<div className='bg-sumiInk1 text-fujiWhite relative flex h-full flex-col'>
 			<Header name='Notes' ret={true} />
 
 			{!showExplorer && (
@@ -417,7 +416,7 @@ export default function Notes() {
 				</button>
 			)}
 
-			<div className='flex flex-1 gap-3 px-3 pb-3 pt-2'>
+			<div className='flex flex-1 gap-3 px-3 pt-2 pb-3'>
 				{/* div full or empty for the text area*/}
 				{filePath !== null ? (
 					<form
@@ -439,11 +438,10 @@ export default function Notes() {
 										onClick={() => setUseVimMode((prev) => !prev)}
 										aria-pressed={useVimMode}
 										aria-label='Toggle Vim mode'
-										className={`rounded-full border px-2 py-0.5 text-xs font-semibold uppercase tracking-wide transition-colors ${
-											useVimMode
+										className={`rounded-full border px-2 py-0.5 text-xs font-semibold tracking-wide uppercase transition-colors ${useVimMode
 												? 'border-waveAqua2 text-waveAqua2'
 												: 'border-sumiInk4 text-fujiGray hover:text-fujiWhite'
-										}`}
+											}`}
 									>
 										Vim
 									</button>
@@ -492,7 +490,7 @@ export default function Notes() {
 				)}
 
 				{/* panel for the explorer on !mobile */}
-				<div className='bg-sumiInk2 border-sumiInk4 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-auto rounded-2xl border p-3 shadow-lg md:block'>
+				<div className='bg-sumiInk2 border-sumiInk4 hidden w-1/4 max-w-[360px] min-w-[220px] flex-1 overflow-auto rounded-2xl border p-3 shadow-lg md:ml-auto md:block'>
 					<TreeNode
 						name='root'
 						node={root}
@@ -596,7 +594,7 @@ export default function Notes() {
 									update((folder) => folder.delete(deletePath));
 									setDeletePath(null);
 								}}
-								className='bg-waveRed text-sumiInk0 hover:bg-peachRed hover:cursor-pointer rounded px-3 py-1 text-sm'
+								className='bg-waveRed text-sumiInk0 hover:bg-peachRed rounded px-3 py-1 text-sm hover:cursor-pointer'
 							>
 								Delete
 							</button>

@@ -52,14 +52,6 @@ A minimalist blog platform. Features include:
 - Markdown rendering for post content.
 - Simple navigation to browse posts.
 
-### 4. Crypto
-
-A basic cryptographic tool demonstrating classic ciphers. Includes:
-
-- Caesar Cipher encryption and decryption.
-- Vigenere Cipher encryption and decryption.
-- Input validation to ensure alphabetic characters for keys and data.
-
 ## Installation
 
 To get a local copy up and running, follow these simple steps.

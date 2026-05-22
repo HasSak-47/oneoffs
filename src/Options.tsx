@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 function Options() {
-	const links = ['Notes', 'PalletGenerator', 'Blog', 'Crypto'];
+	const links = ['Notes', 'PalletGenerator', 'Blog'];
 	const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 	const linkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
 	const rootRef = useRef<HTMLDivElement | null>(null);
