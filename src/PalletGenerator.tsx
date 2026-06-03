@@ -74,7 +74,7 @@ function ColorPicker({ L, c, h, setl, setc, seth }: ColorProps) {
   );
 
   return (
-    <div className='max-w-[200px] md:max-w-[400px]'>
+    <div className='max-w-50 md:max-w-100'>
       <button
         className='aspect-square w-full rounded-xl transition-transform hover:scale-105 hover:cursor-copy'
         style={{ backgroundImage: fmt(L, c, h, L, c, h) }}
@@ -124,7 +124,7 @@ export default function PalletGenerator() {
     number
   );
 
-  let output = steps.map((color) => {
+  const output = steps.map((color) => {
     let string_color = fmt(
       color.L,
       color.c,
@@ -158,7 +158,7 @@ export default function PalletGenerator() {
 
     return (
       <button
-        className='aspect-square w-[100px] rounded-xl transition-transform hover:scale-105 hover:cursor-copy md:w-[150px]'
+        className='aspect-square min-h-50 min-w-50 rounded-xl transition-transform hover:scale-105 hover:cursor-copy md:w-37.5'
         style={{
           backgroundImage: string_color,
           color: complement_rgb,
@@ -235,7 +235,7 @@ export default function PalletGenerator() {
         </div>
       </div>
       {/* output */}
-      <div className='mx-auto mt-5 flex min-w-[200px] flex-wrap justify-center gap-4 md:w-3/4'>
+      <div className='mx-auto mt-5 flex flex-wrap justify-center gap-4 md:w-3/4'>
         {output}
       </div>
     </div>

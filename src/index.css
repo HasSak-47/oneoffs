@@ -66,6 +66,7 @@
 }
 
 @layer base {
+
   html,
   body {
     @apply text-white;
