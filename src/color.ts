@@ -125,7 +125,69 @@ export function rgb_to_hex({ r, g, b }: rgb) {
   return `#${hexR}${hexG}${hexB}`;
 }
 
-export function color_step(beg: okLch, end: okLch, step: number) {
+function rgb_in_srgb({ r, g, b }: rgb) {
+  return (
+    Number.isFinite(r) &&
+    Number.isFinite(g) &&
+    Number.isFinite(b) &&
+    r >= 0 &&
+    r <= 1 &&
+    g >= 0 &&
+    g <= 1 &&
+    b >= 0 &&
+    b <= 1
+  );
+}
+
+function normalize_radian_hue(h: number) {
+  return ((h % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+}
+
+function normalize_turn_hue(h: number) {
+  return ((h % 1) + 1) % 1;
+}
+
+export function clamp_oklch_to_srgb(color: okLch): okLch {
+  const L = clamp(color.L, 0, 1);
+  const h = normalize_radian_hue(color.h);
+  const c = Math.max(0, color.c);
+
+  if (rgb_in_srgb(oklab_to_rgb(oklch_to_oklab({ L, c, h })))) {
+    return { L, c, h };
+  }
+
+  let low = 0;
+  let high = c;
+
+  for (let i = 0; i < 12; i++) {
+    const mid = (low + high) / 2;
+    const rgb = oklab_to_rgb(oklch_to_oklab({ L, c: mid, h }));
+
+    if (rgb_in_srgb(rgb)) {
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  return { L, c: low, h };
+}
+
+export function clamp_oklch_turn_to_srgb(color: okLch): okLch {
+  const clamped = clamp_oklch_to_srgb({
+    L: color.L,
+    c: color.c,
+    h: color.h * Math.PI * 2,
+  });
+
+  return {
+    L: clamped.L,
+    c: clamped.c,
+    h: normalize_turn_hue(clamped.h / (Math.PI * 2)),
+  };
+}
+
+export function in_between_palette(beg: okLch, end: okLch, step: number) {
   // handle when chroma is small
   if (beg.c < 0.001) {
     beg.h = end.h;
@@ -159,7 +221,63 @@ export function color_step(beg: okLch, end: okLch, step: number) {
     val.h = ((val.h % 1) + 1) % 1;
     arr.push(val);
   }
-  console.log(arr);
-
   return arr;
+}
+export type HueMode =
+  | 'monochromatic'
+  | 'analogous'
+  | 'complementary'
+  | 'triadic complementary'
+  | 'tetradic complementary';
+
+export type PaletteSettings = {
+  colorCount: number;
+  hueContrast: number; // 0..1
+  chromaContrast: number; // 0..1
+  lightnessContrast: number; // 0..1
+};
+
+function clamp(x: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, x));
+}
+
+export function root_palette(
+  baseColor: okLch,
+  mode: HueMode,
+  settings: PaletteSettings
+): okLch[] {
+  const colors: okLch[] = [];
+
+  const count = settings.colorCount;
+  const hueContrast = settings.hueContrast;
+  const chromaRange = settings.chromaContrast * 0.12;
+  const lightnessRange = settings.lightnessContrast;
+
+  console.log(baseColor, oklab_to_rgb(oklch_to_oklab(baseColor)));
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
+    const centeredT = t - 0.5;
+
+    let hueOffset = centeredT * hueContrast * Math.PI * 2;
+
+    if (mode === 'monochromatic') hueOffset *= 0.0;
+    if (mode === 'analogous') hueOffset *= 0.25;
+    if (mode === 'complementary') hueOffset *= 0.33;
+    if (mode === 'triadic complementary') hueOffset *= 0.66;
+    if (mode === 'tetradic complementary') hueOffset *= 0.75;
+
+    const L = baseColor.L + centeredT * lightnessRange;
+    const c = baseColor.c + centeredT * chromaRange;
+    const h = baseColor.h + hueOffset;
+    console.log(L, c, h, oklab_to_rgb(oklch_to_oklab({ L, c, h })));
+
+    colors.push({
+      L,
+      c,
+      h,
+    });
+  }
+  console.log();
+
+  return colors;
 }
